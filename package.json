@@ -1,0 +1,34 @@
+{
+  "name": "cagometro_bot",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000t\u0000e\u0000l\u0000e\u0000g\u0000r\u0000a\u0000m\u0000-\u0000c\u0000o\u0000u\u0000n\u0000t\u0000e\u0000r\u0000-\u0000b\u0000o\u0000t\u0000\r\u0000 \u0000",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juan",
+  "license": "",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juandelaoliva/Counter_Bot"
+  },
+  "keywords": [
+    "telegram",
+    "counter",
+    "bot",
+    "telegraf",
+	"caca",
+	"cagometro",
+	"mierda"
+  ],
+  "bugs": {
+    "url": "https://github.com/juandelaoliva/Counter_Bot/issues"
+  },
+  "homepage": "https://github.com/juandelaoliva/Counter_Bot#readme",
+  "dependencies": {
+    "collections": "^5.1.8",
+    "telegraf": "^3.6.4",
+    "telegraf-inline-menu": "^3.5.3"
+  }
+}
