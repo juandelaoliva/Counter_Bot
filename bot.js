@@ -110,13 +110,14 @@ bot.command('Modificar', (ctx) => {
   })
 
   bot.on('callback_query', (ctx) => {
+      try{
     var from = userString(ctx);
     var newData=JSON.parse(from).username;
     if(newData==null){
         newData = (JSON.parse(from).from.username);
     }
     if(newData==null){
-        newData = (JSON.parse(from).from.first_name);
+        throw TypeError;
     }
     var counterId = newData || 0;
 
@@ -137,6 +138,11 @@ bot.command('Modificar', (ctx) => {
     logOutMsg(ctx, val);
     ctx.reply(val);
     ctx.answerCbQuery(ctx.callbackQuery.data, "recibido!")
+}catch (e) {
+    if (e instanceof TypeError) {
+        ctx.reply("Para usar este bot necesitas tener un alias o nombre de usuario de Telegram");
+    }
+}
   })
 
 
@@ -212,6 +218,8 @@ bot.command(('Ranking'), ctx => {
 });
 
 bot.command(('SumaCaca'), ctx => {
+   try {
+
     var from = userString(ctx);
   
     var newData=JSON.parse(from).username;
@@ -219,7 +227,7 @@ bot.command(('SumaCaca'), ctx => {
         newData = (JSON.parse(from).from.username);
     }
     if(newData==null){
-        newData = (JSON.parse(from).from.first_name);
+        throw TypeError;
     }else{
 
    
@@ -230,7 +238,11 @@ bot.command(('SumaCaca'), ctx => {
     var counterId = newData || 0;// m.substring(m.indexOf(currentCommand) + currentCommand.length) || 0; //get id of command, return 0 if not found
 
     var delta = 1;
-    params = ctx.message.text.split(" ");
+   
+ params = ctx.message.text.split(" ");
+   console.log(params);
+//   throw TypeError;
+   
     
 
     var val = +dataService.getCounter(ctx.chat.id, counterId);
@@ -253,16 +265,26 @@ bot.command(('SumaCaca'), ctx => {
     
     logOutMsg(ctx, val);
     ctx.reply(val);
+       
+   } catch (e) {
+    if (e instanceof TypeError) {
+        ctx.reply("Para usar este bot necesitas tener un alias o nombre de usuario de Telegram");
+    }
+}
+   
+   
+   
 });
 
 bot.command(('QuitaCaca'), ctx => {
+    try{
     var from = userString(ctx);
     var newData=JSON.parse(from).username;
     if(newData==null){
         newData = (JSON.parse(from).from.username);
     }
     if(newData==null){
-        newData = (JSON.parse(from).from.first_name);
+        throw TypeError;
     }
     logMsg(ctx);
     currentCommand = 'quitacaca';
@@ -287,6 +309,11 @@ bot.command(('QuitaCaca'), ctx => {
     val = printCounterId + val + " 💩";
     logOutMsg(ctx, val);
     ctx.reply(val);
+}catch (e) {
+    if (e instanceof TypeError) {
+        ctx.reply("Para usar este bot necesitas tener un alias o nombre de usuario de Telegram");
+    }
+}
 });
 
 // bot.hears(getRegExp('reset'), ctx => {
