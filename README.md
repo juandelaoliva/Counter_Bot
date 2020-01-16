@@ -6,3 +6,6 @@ Bienvenido al cagómetro
 - `npm install`
 - start the bot with the app.js (either use `node app.js` or use a manager like pm2)
 
+
+
+Project based on [LeoDJ's telegram-counter-bot](https://github.com/LeoDJ/telegram-counter-bot)
