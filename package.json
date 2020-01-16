@@ -18,9 +18,9 @@
     "counter",
     "bot",
     "telegraf",
-	"caca",
-	"cagometro",
-	"mierda"
+    "caca",
+    "cagometro",
+    "mierda"
   ],
   "bugs": {
     "url": "https://github.com/juandelaoliva/Counter_Bot/issues"
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/juandelaoliva/Counter_Bot#readme",
   "dependencies": {
     "collections": "^5.1.8",
+    "lodash": "^4.17.15",
     "telegraf": "^3.6.4",
     "telegraf-inline-menu": "^3.5.3"
   }
