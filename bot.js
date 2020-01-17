@@ -21,7 +21,7 @@ Para más informaciónn puedes ejecutar el comando /Ayuda
 
 const helpMsg = `💩Comandos de referencia:💩
 
-/start - Iniciar bot (necesario en grupos)
+/start - Iniciar bot
 /SumaCaca - Aumenta en una unidad tu contador de caca
 /QuitaCaca - Decrementa en una unidad tu contador de caca
 /Ranking - Muestra las cacas de todos
@@ -32,7 +32,7 @@ const helpMsg = `💩Comandos de referencia:💩
 
 const aboutMsg = "Este bot ha sido creado por @juandelaoliva utilizando el proyecto base de contador de  @LeoDJ\nCódigo fuente y datos de contacto se pueden encontrar en https://github.com/LeoDJ/telegram-counter-bot";
 
-const nameErrMsg = "Para usar este bot necesitas tener un alias o nombre de usuario de Telegram";
+const nameErrMsg = "Para usar este bot es necesario inciar el bot con el comando /start y tener un alias o nombre de usuario de Telegram";
 
 function getRegExp(command) {
     return new RegExp("/" + command + "[a-z,A-Z,0-9]{0,25}\\b");
@@ -112,7 +112,7 @@ const menuPrincipal = Markup
     .keyboard([
         ['/SumaCaca'], // Row1
         ['/QuitaCaca', '/Modificar', '/Ranking'], // Row2 with 2 buttons
-        ['/Donar', '/Compartir','/Ayuda'] // Row3 with 3 buttons
+        ['/Donar', '/Compartir', '/Ayuda'] // Row3 with 3 buttons
     ])
     .oneTime()
     .resize()
@@ -216,6 +216,7 @@ bot.command(('Ranking'), ctx => {
         ctx.reply(msg);
     }
 });
+
 
 
 
@@ -339,6 +340,158 @@ bot.command('broadcast', ctx => {
     }
 });
 
+//---------------------------------------------Estadísticas---------------------------------------------------------------
+
+
+bot.command(('Stats'), ctx => {
+    try {
+        var from = userString(ctx);
+
+        var newData = JSON.parse(from).username;
+        if (newData == null) {
+            newData = (JSON.parse(from).from.username);
+        }
+        if (newData == null) {
+            //throw TypeError;
+            console.log('ERROR');
+        } else {
+
+            stats = dataService.getStats(ctx.chat.id, newData);
+
+            var today = new Date();
+            var thisDay = today.getDate();
+            var thisYear = today.getFullYear();
+            var lastYear = thisYear - 1;
+            var thisMonth = today.getMonth() + 1;
+
+            if (thisMonth == 1) {
+                var lastMonth = 12;
+            } else {
+                var lastMonth = thisMonth - 1;
+            }
+
+
+            var cacasToday = 0;
+            var cacasYesterday = 0;
+
+            var cacasThisMonth = 0;
+            var cacasLastMonth = 0;
+
+            var mediaThisMonth = 0;
+            var mediaLastMonth = 0;
+
+            var mediaThisYear = 0;
+            var mediaLastYear = 0;
+
+            var cacasThisYear = 0;
+            var cacasLastYear = 0;
+
+
+            for (var i = 0; i < stats.length; i++) {
+
+                if (stats[i].year == thisYear) {
+                    cacasThisYear += 1;
+                }
+                if (stats[i].year == lastYear) {
+                    cacasLastYear += 1;
+                }
+
+                if (stats[i].year == thisYear && stats[i].month == thisMonth) {
+                    cacasThisMonth += 1;
+                }
+
+                if (stats[i].year == thisYear && stats[i].month == lastMonth && lastMonth != 12) {
+                    cacasLastMonth += 1;
+                }
+
+                if (stats[i].year == lastYear && stats[i].month == lastMonth && lastMonth == 12) {
+                    cacasLastMonth += 1;
+                }
+
+                if (stats[i].year == thisYear && stats[i].month == thisMonth && stats[i].day == thisDay) {
+                    cacasToday += 1;
+                }
+
+            }
+
+
+            //calculamos si este año es bisiesto o no
+            var bisiesto = false;
+            if (thisYear % 400 == 0 || (thisYear % 4 == 0 && thisYear % 100 != 0)) {
+                bisiesto = true;
+                mediaThisYear = cacasThisYear / 366;
+            } else {
+                bisiesto = false;
+                mediaThisYear = cacasThisYear / 365;
+            }
+
+            mediaThisMonth = calculaMediaMes(thisMonth, cacasThisMonth);
+            mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth);
+
+            var diferenciaConMesPasado;
+            if (mediaLastMonth != 0) {
+                diferenciaConMesPasado = ((mediaThisMonth / mediaLastMonth) * 100) - 100;
+            }
+
+
+
+            var res = '💩 Estadísticas de ' + newData + ' 💩\n';
+            res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
+            res += '- Hoy has cagado ' + cacasToday + ' veces.\n';
+            res += '- Este mes has cagado ' + cacasThisMonth + ' veces.\n';
+            res += '- Este año has cagado ' + cacasThisYear + ' veces.\n\n';
+            res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
+            res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
+
+            if (diferenciaConMesPasado) {
+                res += ' que es un ' + Math.abs(diferenciaConMesPasado) + '%';
+                if (diferenciaConMesPasado >= 0) {
+                    res += ' más';
+                } else if (diferenciaConMesPasado < 0) {
+                    res += ' menos';
+                }
+                res += ' que el mes pasado';
+            }
+
+
+            ctx.reply(res);
+        }
+    }
+    catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(nameErrMsg);
+        }
+    }
+});
+
+function calculaMediaMes(month, cacasMonth) {
+    //estadísticas por mes
+    var mediaMonth = 0;
+    // Primero tratamos febrero por ser especial
+    if (month == 2) {
+        if (bisiesto) {
+            mediaMonth = cacasMonth / 29;
+        } else {
+            mediaMonth = cacasMonth / 28;
+        }
+        // ahora el resto de meses hasta Julio
+    } else if (month != 2 && month < 8) {
+        if (month % 2 == 0) {
+            mediaMonth = cacasMonth / 30;
+        } else {
+            mediaMonth = cacasMonth / 31;
+        }
+        // de Agosto a Diciembre
+    } else if (month >= 8) {
+        if (month % 2 == 0) {
+            mediaMonth = cacasMonth / 31;
+        } else {
+            mediaMonth = cacasMonth / 30;
+        }
+    }
+
+    return mediaMonth;
+}
 
 bot.startPolling();
 

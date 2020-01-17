@@ -55,13 +55,15 @@ function assertCounter(uid, id) {
             }
             else {
                 users[uid].counter[id] = 0;
+                users[uid].stats[id] = [];
                 saveUsers();
             }
         }
         else {
             users[uid].counter = {};
             users[uid].counter[id] = 0;
-
+            users[uid].stats = {};
+            users[uid].stats[id] = [];
             saveUsers();
         }
     }
@@ -73,15 +75,51 @@ function assertCounter(uid, id) {
     }
 }
 
+
 function setCounter(uid, id, val) {
+
     assertCounter(uid, id);
+
+    var oldVal = users[uid].counter[id];
+    var moment = createStats();
+    var diferencia = val - oldVal;
+
+    if (diferencia > 0) {
+        var i;
+        for (i = 0; i < diferencia; i++) {
+            users[uid].stats[id].push(moment);
+        }
+    } else if (diferencia < 0) {
+        for (i = 0; i > diferencia; i--) {
+            users[uid].stats[id].pop();
+        }
+    }
+
     users[uid].counter[id] = val;
-    saveUsers();
+    setTimeout(function () { saveUsers() }, 3000);
+
+}
+
+function createStats() {
+    var d = new Date();
+    var stat = {
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d.getDate(),
+        hour: d.getHours(),
+        minute: d.getMinutes()
+    }
+    return stat;
 }
 
 function getCounter(uid, id) {
     assertCounter(uid, id);
     return users[uid].counter[id];
+}
+
+function getStats(uid, id) {
+    assertCounter(uid, id);
+    return users[uid].stats[id];
 }
 
 function getAllCounters(uid) {
@@ -96,5 +134,6 @@ module.exports = {
     getMetaData,
     setCounter,
     getCounter,
-    getAllCounters
+    getAllCounters,
+    getStats
 };
