@@ -23,10 +23,14 @@ const helpMsg = `💩Comandos de referencia:💩
 
 /start - Iniciar bot
 /SumaCaca - Aumenta en una unidad tu contador de caca
-/QuitaCaca - Decrementa en una unidad tu contador de caca
 /Ranking - Muestra las cacas de todos
-/about - Muestra la información del Cagómetro
-/Ayuda - Muestra esta página de ayuda
+/Stats - Muestra tus estadísticas
+/menuprincipal - Muestra los botones principales
+/quitacaca - Decrementa una unidad de caca
+/modificar - Cambia tus cacas a lo grande
+/ayuda - Pulsa aquí si tienes dudas
+/compartir - Haz que el Cagómetro vea mundo
+/donar - Para seguir mejorando este proyecto
 
 `;
 
@@ -110,18 +114,16 @@ const testMenu = Telegraf.Extra
 
 const menuPrincipal = Markup
     .keyboard([
-        ['/SumaCaca'], // Row1
-        ['/QuitaCaca', '/Modificar', '/Ranking'], // Row2 with 2 buttons
-        ['/Donar', '/Compartir', '/Ayuda'] // Row3 with 3 buttons
+        ['/SumaCaca', '/Ranking', '/Stats'] // Row3 with 3 buttons
     ])
     .oneTime()
     .resize()
     .extra()
 
 
-bot.command('MenuPrincipal', ctx => ctx.reply('💩 Menú Principal 💩', menuPrincipal))
-bot.command('Donar', ctx => ctx.reply('💩💰 Puedes donar al proyecto mediante este link de Paypal 💩\n\n   paypal.me/juandelaoliva'))
-bot.command('Compartir', ctx => ctx.reply('💩 Puedes compartir este bot mediante el siguiente link 💩\n\n   telegram.me/cgmtr_bot'))
+bot.command('menuprincipal', ctx => ctx.reply('💩 Menú Principal 💩', menuPrincipal))
+bot.command('donar', ctx => ctx.reply('💩💰 Puedes donar al proyecto mediante este link de Paypal 💩\n\n   paypal.me/juandelaoliva'))
+bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot mediante el siguiente link 💩\n\n   telegram.me/cgmtr_bot'))
 
 
 //---------------------------------------------RESPUESTAS AUTOMÁTICAS---------------------------------------------------------------
@@ -134,7 +136,7 @@ bot.hears(/peste/i, (ctx) => ctx.reply("💩 jejeje ha dicho peste 💩"));
 
 //---------------------------------------------COMANDOS---------------------------------------------------------------
 
-bot.command('Modificar', (ctx) => {
+bot.command('modificar', (ctx) => {
     return ctx.reply('🔧 💩 Modifica tu número de cacas a lo grande! 💩', Extra.HTML().markup((m) =>
         m.inlineKeyboard([
             m.callbackButton('-100', -100),
@@ -165,7 +167,7 @@ bot.command('stop', ctx => {
 });
 
 
-bot.command('Ayuda', ctx => {
+bot.command('ayuda', ctx => {
     logMsg(ctx);
     logOutMsg(ctx, helpMsg);
     ctx.reply(helpMsg);
@@ -283,7 +285,7 @@ bot.command(('SumaCaca'), ctx => {
 
 });
 
-bot.command(('QuitaCaca'), ctx => {
+bot.command(('quitacaca'), ctx => {
     try {
         var from = userString(ctx);
         var newData = JSON.parse(from).username;
