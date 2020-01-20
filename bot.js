@@ -68,49 +68,8 @@ function logOutMsg(ctx, text) {
     }, text);
 }
 
-bot.on('callback_query', (ctx) => {
-    try {
-        var from = userString(ctx);
-        var newData = JSON.parse(from).username;
-        if (newData == null) {
-            newData = (JSON.parse(from).from.username);
-        }
-        if (newData == null) {
-            throw TypeError;
-        }
-        var counterId = newData || 0;
-
-        var val = +dataService.getCounter(ctx.chat.id, counterId);
-        var delta = parseInt(ctx.callbackQuery.data);
-
-
-        val = val + delta;
-        if (val < 0) {
-            val = 0;
-        }
-        dataService.setCounter(ctx.chat.id, counterId, val);
-
-        var printCounterId = counterId ? "[" + counterId + "] " : "";
-        val = printCounterId + val + " 💩";
-
-        console.log(ctx.callbackQuery.data)
-        logOutMsg(ctx, val);
-        ctx.reply(val);
-        ctx.answerCbQuery(ctx.callbackQuery.data, "recibido!")
-    } catch (e) {
-        if (e instanceof TypeError) {
-            ctx.reply(nameErrMsg);
-        }
-    }
-})
-
 
 //---------------------------------------------MENU---------------------------------------------------------------
-const testMenu = Telegraf.Extra
-    .markdown()
-    .markup((m) => m.inlineKeyboard([
-        m.callbackButton('Test button', 'test')
-    ]))
 
 const menuPrincipal = Markup
     .keyboard([
@@ -175,7 +134,7 @@ bot.command('ayuda', ctx => {
 
 bot.command('about', ctx => {
     logMsg(ctx);
-    logOutMsg(ctx, aboutMsg);
+    //logOutMsg(ctx, aboutMsg);
     ctx.reply(aboutMsg);
 });
 
@@ -226,31 +185,17 @@ bot.command(('SumaCaca'), ctx => {
     try {
 
         var from = userString(ctx);
-
-        var newData = JSON.parse(from).username;
-        if (newData == null) {
-            newData = (JSON.parse(from).from.username);
+        // Comprobamos si el mensaje viene de un grupo o de un chat privado
+        var counterId = JSON.parse(from).username;
+        if (counterId == null) {
+            counterId = (JSON.parse(from).from.username);
         }
-        if (newData == null) {
+        if (counterId == null) {
             throw TypeError;
         } else {
 
-            logMsg(ctx);
-            currentCommand = 'caca';
-            // var m = ctx.message.text.match(getRegExp(currentCommand))[0]; //filter command
-            var counterId = newData || 0;// m.substring(m.indexOf(currentCommand) + currentCommand.length) || 0; //get id of command, return 0 if not found
-
-            var delta = 1;
-
-            params = ctx.message.text.split(" ");
-            console.log(params);
-            //   throw TypeError;
-
-
-
             var val = +dataService.getCounter(ctx.chat.id, counterId);
-            console.log(val);
-            val += delta;
+            val++;
             dataService.setCounter(ctx.chat.id, counterId, val);
 
             var printCounterId = counterId ? "[" + counterId + "] " : "";
@@ -288,26 +233,16 @@ bot.command(('SumaCaca'), ctx => {
 bot.command(('quitacaca'), ctx => {
     try {
         var from = userString(ctx);
-        var newData = JSON.parse(from).username;
-        if (newData == null) {
-            newData = (JSON.parse(from).from.username);
+        var counterId = JSON.parse(from).username;
+        if (counterId == null) {
+            counterId = (JSON.parse(from).from.username);
         }
-        if (newData == null) {
+        if (counterId == null) {
             throw TypeError;
-        }
-        logMsg(ctx);
-        currentCommand = 'quitacaca';
-        //var m = ctx.message.text.match(getRegExp(currentCommand))[0]; //filter command
-        var counterId = newData || 0; //get id of command, return 0 if not found
-
-        var delta = 1;
-        params = ctx.message.text.split(" ");
-        if (params.length == 2 && !isNaN(params[1])) {
-            delta = Math.floor(params[1]);
         }
 
         var val = +dataService.getCounter(ctx.chat.id, counterId);
-        val -= delta;
+        val--;
         if (val < 0) {
             val = 0;
         }
@@ -354,114 +289,125 @@ bot.command(('Stats'), ctx => {
             newData = (JSON.parse(from).from.username);
         }
         if (newData == null) {
-            //throw TypeError;
-            console.log('ERROR');
+            throw TypeError;
         } else {
 
             stats = dataService.getStats(ctx.chat.id, newData);
 
-            var today = new Date();
-            var thisDay = today.getDate();
-            var thisYear = today.getFullYear();
-            var lastYear = thisYear - 1;
-            var thisMonth = today.getMonth() + 1;
+            if (stats.length > 0) {
 
-            if (thisMonth == 1) {
-                var lastMonth = 12;
+                var today = new Date();
+
+                var thisDay = today.getDate();
+                var thisYear = today.getFullYear();
+                var lastYear = thisYear - 1;
+                var thisMonth = today.getMonth() + 1;
+
+                if (thisMonth == 1) {
+                    var lastMonth = 12;
+                } else {
+                    var lastMonth = thisMonth - 1;
+                }
+
+
+                var cacasToday = 0;
+                var cacasYesterday = 0;
+
+                var cacasThisMonth = 0;
+                var cacasLastMonth = 0;
+
+                var mediaThisMonth = 0;
+                var mediaLastMonth = 0;
+
+                var mediaThisYear = 0;
+                var mediaLastYear = 0;
+
+                var cacasThisYear = 0;
+                var cacasLastYear = 0;
+
+
+                for (var i = 0; i < stats.length; i++) {
+                    var logDate = new Date(Date.parse(stats[i]));
+
+                    var logYear = logDate.getFullYear();
+                    var logMonth = logDate.getMonth() + 1;
+                    var logDay = logDate.getDate();
+
+                    if (logYear == thisYear) {
+                        cacasThisYear += 1;
+                    }
+                    if (logYear == lastYear) {
+                        cacasLastYear += 1;
+                    }
+
+                    if (logYear == thisYear && logMonth == thisMonth) {
+                        cacasThisMonth += 1;
+                    }
+
+                    if (logYear == thisYear && logMonth == lastMonth && lastMonth != 12) {
+                        cacasLastMonth += 1;
+                    }
+
+                    if (logYear == lastYear && logMonth == lastMonth && lastMonth == 12) {
+                        cacasLastMonth += 1;
+                    }
+
+                    if (logYear == thisYear && logMonth == thisMonth && logDay == thisDay) {
+                        cacasToday += 1;
+                    }
+
+                }
+
+
+                //calculamos si este año es bisiesto o no
+                var bisiesto = false;
+                if (thisYear % 400 == 0 || (thisYear % 4 == 0 && thisYear % 100 != 0)) {
+                    bisiesto = true;
+                    mediaThisYear = cacasThisYear / 366;
+                } else {
+                    bisiesto = false;
+                    mediaThisYear = cacasThisYear / 365;
+                }
+
+                mediaThisMonth = calculaMediaMes(thisMonth, cacasThisMonth);
+                mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth);
+
+                var diferenciaConMesPasado;
+                if (mediaLastMonth != 0) {
+                    diferenciaConMesPasado = ((mediaThisMonth / mediaLastMonth) * 100) - 100;
+                }
+
+
+
+                var res = '💩 Estadísticas de ' + newData + ' 💩\n';
+                res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
+                res += '- Hoy has cagado ' + cacasToday + ' veces.\n';
+                res += '- Este mes has cagado ' + cacasThisMonth + ' veces.\n';
+                res += '- Este año has cagado ' + cacasThisYear + ' veces.\n\n';
+                res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
+                res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
+
+                if (diferenciaConMesPasado) {
+                    res += ' que es un ' + Math.abs(diferenciaConMesPasado) + '%';
+                    if (diferenciaConMesPasado >= 0) {
+                        res += ' más';
+                    } else if (diferenciaConMesPasado < 0) {
+                        res += ' menos';
+                    }
+                    res += ' que el mes pasado';
+                }
+
+
+                ctx.reply(res);
             } else {
-                var lastMonth = thisMonth - 1;
+                ctx.reply('Ninguna estadística disponible');
             }
-
-
-            var cacasToday = 0;
-            var cacasYesterday = 0;
-
-            var cacasThisMonth = 0;
-            var cacasLastMonth = 0;
-
-            var mediaThisMonth = 0;
-            var mediaLastMonth = 0;
-
-            var mediaThisYear = 0;
-            var mediaLastYear = 0;
-
-            var cacasThisYear = 0;
-            var cacasLastYear = 0;
-
-
-            for (var i = 0; i < stats.length; i++) {
-
-                if (stats[i].year == thisYear) {
-                    cacasThisYear += 1;
-                }
-                if (stats[i].year == lastYear) {
-                    cacasLastYear += 1;
-                }
-
-                if (stats[i].year == thisYear && stats[i].month == thisMonth) {
-                    cacasThisMonth += 1;
-                }
-
-                if (stats[i].year == thisYear && stats[i].month == lastMonth && lastMonth != 12) {
-                    cacasLastMonth += 1;
-                }
-
-                if (stats[i].year == lastYear && stats[i].month == lastMonth && lastMonth == 12) {
-                    cacasLastMonth += 1;
-                }
-
-                if (stats[i].year == thisYear && stats[i].month == thisMonth && stats[i].day == thisDay) {
-                    cacasToday += 1;
-                }
-
-            }
-
-
-            //calculamos si este año es bisiesto o no
-            var bisiesto = false;
-            if (thisYear % 400 == 0 || (thisYear % 4 == 0 && thisYear % 100 != 0)) {
-                bisiesto = true;
-                mediaThisYear = cacasThisYear / 366;
-            } else {
-                bisiesto = false;
-                mediaThisYear = cacasThisYear / 365;
-            }
-
-            mediaThisMonth = calculaMediaMes(thisMonth, cacasThisMonth);
-            mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth);
-
-            var diferenciaConMesPasado;
-            if (mediaLastMonth != 0) {
-                diferenciaConMesPasado = ((mediaThisMonth / mediaLastMonth) * 100) - 100;
-            }
-
-
-
-            var res = '💩 Estadísticas de ' + newData + ' 💩\n';
-            res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
-            res += '- Hoy has cagado ' + cacasToday + ' veces.\n';
-            res += '- Este mes has cagado ' + cacasThisMonth + ' veces.\n';
-            res += '- Este año has cagado ' + cacasThisYear + ' veces.\n\n';
-            res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
-            res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
-
-            if (diferenciaConMesPasado) {
-                res += ' que es un ' + Math.abs(diferenciaConMesPasado) + '%';
-                if (diferenciaConMesPasado >= 0) {
-                    res += ' más';
-                } else if (diferenciaConMesPasado < 0) {
-                    res += ' menos';
-                }
-                res += ' que el mes pasado';
-            }
-
-
-            ctx.reply(res);
         }
     }
     catch (e) {
         if (e instanceof TypeError) {
             ctx.reply(nameErrMsg);
+            console.log(e);
         }
     }
 });

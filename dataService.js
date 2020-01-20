@@ -8,7 +8,7 @@ function loadUsers() {
     fs.readFile(usrFileName, (err, data) => {
         if (err) throw err;
         users = JSON.parse(data);
-        //console.log('Así carga el archivo \n',users);
+        //console.log('Así carga el archivo: \n',users);
     });
 }
 
@@ -56,7 +56,6 @@ function assertCounter(uid, id) {
             else {
                 users[uid].counter[id] = 0;
                 users[uid].stats[id] = [];
-                saveUsers();
             }
         }
         else {
@@ -64,11 +63,10 @@ function assertCounter(uid, id) {
             users[uid].counter[id] = 0;
             users[uid].stats = {};
             users[uid].stats[id] = [];
-            saveUsers();
         }
+        saveUsers();
     }
     else {
-        //console.log("[ERROR] User ID", uid, "does not exist in database");
         var usr = { enabled: true, data: { from: undefined, chat: undefined, error: "user was not initialized properly" }, counter: { "0": 1 } };
         users[uid] = usr;
         saveUsers();
@@ -95,21 +93,19 @@ function setCounter(uid, id, val) {
         }
     }
 
+
     users[uid].counter[id] = val;
-    setTimeout(function () { saveUsers() }, 3000);
+
+
+    setTimeout(() => {
+        saveUsers();
+    }, 50);
 
 }
 
 function createStats() {
-    var d = new Date();
-    var stat = {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate(),
-        hour: d.getHours(),
-        minute: d.getMinutes()
-    }
-    return stat;
+    var date = new Date();
+    return date;
 }
 
 function getCounter(uid, id) {
