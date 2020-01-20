@@ -7,29 +7,28 @@ const {
 const config = require('./config');
 const dataService = require('./dataService');
 var _ = require('lodash');
-
 const bot = new Telegraf(config.botToken);
-const AnimationUrl1 = 'https://media.giphy.com/media/R9cQo06nQBpRe/giphy.gif'
-const AnimationUrl2 = 'https://media.giphy.com/media/tfwj5xK0G7fTa/giphy.gif'
+const AnimationUrl1 = 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif'
+const AnimationUrl2 = 'https://media.giphy.com/media/hEIuLmpW9DmGA/giphy.gif'
 
-const initMsg = `💩 Bienvenido al Cagómetro 💩 este bot te ayudará a contar cuántas cacas haces de una manera muy sencilla. 
+const initMsg = `🧮 Bienvenido al Bot_Contador 🧮 este bot te ayudará a llevar la cuenta de lo que quieras y/o competir con tus amigos en un grupo de una manera muy sencilla. 
 
-Todos los comandos necesarios los encontrarás en los botones del menú (si no encuentras los botones al lado del símbolo de los emojis puedes forzar su apariciónn mediante el comando /MenuPrincipal)
+Todos los comandos necesarios los encontrarás en los botones del menú (si no encuentras los botones al lado del símbolo de los emojis puedes forzar su apariciónn mediante el comando /menuPrincipal)
 
-Para más informaciónn puedes ejecutar el comando /Ayuda 
+Para más informaciónn puedes ejecutar el comando /ayuda 
 `;
 
-const helpMsg = `💩Comandos de referencia:💩
+const helpMsg = `🧮Comandos de referencia:🧮
 
 /start - Iniciar bot
-/SumaCaca - Aumenta en una unidad tu contador de caca
-/Ranking - Muestra las cacas de todos
-/Stats - Muestra tus estadísticas
+/suma - Aumenta en una unidad tu contador
+/ranking - Muestra el ranking ordenado
+/stats - Muestra tus estadísticas
 /menuprincipal - Muestra los botones principales
-/quitacaca - Decrementa una unidad de caca
-/modificar - Cambia tus cacas a lo grande
+/resta - Decrementa una unidad tu contador
+/modificar - Cambia tu contador a lo grande
 /ayuda - Pulsa aquí si tienes dudas
-/compartir - Haz que el Cagómetro vea mundo
+/compartir - Haz que el bot vea mundo
 /donar - Para seguir mejorando este proyecto
 
 `;
@@ -73,30 +72,27 @@ function logOutMsg(ctx, text) {
 
 const menuPrincipal = Markup
     .keyboard([
-        ['/SumaCaca', '/Ranking', '/Stats'] // Row3 with 3 buttons
+        ['/suma', '/ranking', '/stats'] // Row3 with 3 buttons
     ])
     .oneTime()
     .resize()
     .extra()
 
 
-bot.command('menuprincipal', ctx => ctx.reply('💩 Menú Principal 💩', menuPrincipal))
-bot.command('donar', ctx => ctx.reply('💩💰 Puedes donar al proyecto mediante este link de Paypal 💩\n\n   paypal.me/juandelaoliva'))
-bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot mediante el siguiente link 💩\n\n   telegram.me/cgmtr_bot'))
+bot.command('menuprincipal', ctx => ctx.reply('🧮 Menú Principal 🧮', menuPrincipal))
+bot.command('donar', ctx => ctx.reply('🧮💰 Puedes donar al proyecto mediante este link de Paypal 🧮\n\n   paypal.me/juandelaoliva'))
+bot.command('compartir', ctx => ctx.reply('🧮 Puedes compartir este bot mediante el siguiente link 🧮\n\n   telegram.me/cgmtr_bot'))
 
 
 //---------------------------------------------RESPUESTAS AUTOMÁTICAS---------------------------------------------------------------
 
-bot.hears(/cagando/i, (ctx) => ctx.reply("💩 espero que estéis cagando bien 💩"));
-bot.hears(/mierda/i, (ctx) => ctx.reply("💩 mierda? vamos allá! 💩"));
-bot.hears(/peste/i, (ctx) => ctx.reply("💩 jejeje ha dicho peste 💩"));
-
+// bot.hears(/ejemplo/i, (ctx) => ctx.reply("Respuesta al escuchar la palabra ejemplo"));
 
 
 //---------------------------------------------COMANDOS---------------------------------------------------------------
 
 bot.command('modificar', (ctx) => {
-    return ctx.reply('🔧 💩 Modifica tu número de cacas a lo grande! 💩', Extra.HTML().markup((m) =>
+    return ctx.reply('🔧 🧮 Modifica tu contador a lo grande! 🧮', Extra.HTML().markup((m) =>
         m.inlineKeyboard([
             m.callbackButton('-100', -100),
             m.callbackButton('-10', -10),
@@ -114,13 +110,13 @@ bot.command('start', ctx => {
     ctx.reply(initMsg);
 
     setTimeout(() => {
-        ctx.reply("💩 Usa los botones para gestionar tus cacas! 💩", menuPrincipal);
+        ctx.reply("🧮 Usa los botones para gestionar tu contador! 🧮", menuPrincipal);
     }, 50);  //delay para enviar este mensaje como segundo mensaje
 });
 
 bot.command('stop', ctx => {
     logMsg(ctx);
-    var m = "💩 Lo siento mucho, pero no puedo hacer eso. 💩";
+    var m = "🧮 Lo siento mucho, pero no puedo hacer eso. 🧮";
     logOutMsg(ctx, m);
     ctx.reply(m);
 });
@@ -134,17 +130,16 @@ bot.command('ayuda', ctx => {
 
 bot.command('about', ctx => {
     logMsg(ctx);
-    //logOutMsg(ctx, aboutMsg);
     ctx.reply(aboutMsg);
 });
 
 
-bot.command(('Ranking'), ctx => {
+bot.command(('ranking'), ctx => {
     logMsg(ctx);
     // Cogemos todos los contadores del chat
     counters = dataService.getAllCounters(ctx.chat.id);
     if (counters == null) {
-        ctx.reply("🥇 💩 Nadie ha registrado ninguna caca todavía 💩")
+        ctx.reply("🥇 🧮 Nadie ha aumentado su contador todavía 🧮")
     } else {
         // Inicio del mensaje de respuesta
         msg = "🥇Ranking🥇 \n\n";
@@ -167,10 +162,10 @@ bot.command(('Ranking'), ctx => {
         // Por cada valor en orden buscamos en el JSON de los contadores a quién pertenece cada puntuación
         for (i = 0; i < uniqueSortedValues.length; i++) {
             if (uniqueSortedValues.length > 1 && i == 0) {
-                msg += ' 👑' + reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n\n";
+                msg += ' 👑' + reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + "\n\n";
 
             } else {
-                msg += reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n";
+                msg += reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + "\n";
             }
         }
         logOutMsg(ctx, msg);
@@ -181,7 +176,7 @@ bot.command(('Ranking'), ctx => {
 
 
 
-bot.command(('SumaCaca'), ctx => {
+bot.command(('suma'), ctx => {
     try {
 
         var from = userString(ctx);
@@ -200,19 +195,19 @@ bot.command(('SumaCaca'), ctx => {
 
             var printCounterId = counterId ? "[" + counterId + "] " : "";
             if (val != 0 && val % 50 == 0 && val != 100) {
-                val = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
+                val = "🧮 Enhorabuena " + counterId + "! 🧮\n\nHas alcanzado los " + val + "! Sigue esforzándote así y llegarás muy lejos!";
                 setTimeout(() => {
                     ctx.replyWithAnimation(AnimationUrl1);
                     logOutMsg(ctx, 0)
                 }, 50);
             } else if (val == 100) {
-                val = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
+                val = "🧮 Wow " + counterId + ", enhorabuena! 🧮\n\nHas llegado a la gran cifra de los tres dígitos. Sigue así!";
                 setTimeout(() => {
                     ctx.replyWithAnimation(AnimationUrl2);
                     logOutMsg(ctx, 0)
                 }, 50);
             } else {
-                val = printCounterId + val + " 💩";
+                val = printCounterId + val + " 🧮";
             }
 
         }
@@ -230,7 +225,7 @@ bot.command(('SumaCaca'), ctx => {
 
 });
 
-bot.command(('quitacaca'), ctx => {
+bot.command(('resta'), ctx => {
     try {
         var from = userString(ctx);
         var counterId = JSON.parse(from).username;
@@ -250,7 +245,7 @@ bot.command(('quitacaca'), ctx => {
 
         var printCounterId = counterId ? "[" + counterId + "] " : "";
 
-        val = printCounterId + val + " 💩";
+        val = printCounterId + val + " 🧮";
         logOutMsg(ctx, val);
         ctx.reply(val);
     } catch (e) {
@@ -280,7 +275,7 @@ bot.command('broadcast', ctx => {
 //---------------------------------------------Estadísticas---------------------------------------------------------------
 
 
-bot.command(('Stats'), ctx => {
+bot.command(('stats'), ctx => {
     try {
         var from = userString(ctx);
 
@@ -310,11 +305,11 @@ bot.command(('Stats'), ctx => {
                 }
 
 
-                var cacasToday = 0;
-                var cacasYesterday = 0;
+                var timesToday = 0;
+                var timesYesterday = 0;
 
-                var cacasThisMonth = 0;
-                var cacasLastMonth = 0;
+                var timesThisMonth = 0;
+                var timesLastMonth = 0;
 
                 var mediaThisMonth = 0;
                 var mediaLastMonth = 0;
@@ -322,8 +317,8 @@ bot.command(('Stats'), ctx => {
                 var mediaThisYear = 0;
                 var mediaLastYear = 0;
 
-                var cacasThisYear = 0;
-                var cacasLastYear = 0;
+                var timesThisYear = 0;
+                var timesLastYear = 0;
 
 
                 for (var i = 0; i < stats.length; i++) {
@@ -334,26 +329,26 @@ bot.command(('Stats'), ctx => {
                     var logDay = logDate.getDate();
 
                     if (logYear == thisYear) {
-                        cacasThisYear += 1;
+                        timesThisYear += 1;
                     }
                     if (logYear == lastYear) {
-                        cacasLastYear += 1;
+                        timesLastYear += 1;
                     }
 
                     if (logYear == thisYear && logMonth == thisMonth) {
-                        cacasThisMonth += 1;
+                        timesThisMonth += 1;
                     }
 
                     if (logYear == thisYear && logMonth == lastMonth && lastMonth != 12) {
-                        cacasLastMonth += 1;
+                        timesLastMonth += 1;
                     }
 
                     if (logYear == lastYear && logMonth == lastMonth && lastMonth == 12) {
-                        cacasLastMonth += 1;
+                        timesLastMonth += 1;
                     }
 
                     if (logYear == thisYear && logMonth == thisMonth && logDay == thisDay) {
-                        cacasToday += 1;
+                        timesToday += 1;
                     }
 
                 }
@@ -363,14 +358,14 @@ bot.command(('Stats'), ctx => {
                 var bisiesto = false;
                 if (thisYear % 400 == 0 || (thisYear % 4 == 0 && thisYear % 100 != 0)) {
                     bisiesto = true;
-                    mediaThisYear = cacasThisYear / 366;
+                    mediaThisYear = timesThisYear / 366;
                 } else {
                     bisiesto = false;
-                    mediaThisYear = cacasThisYear / 365;
+                    mediaThisYear = timesThisYear / 365;
                 }
 
-                mediaThisMonth = calculaMediaMes(thisMonth, cacasThisMonth);
-                mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth);
+                mediaThisMonth = calculaMediaMes(thisMonth, timesThisMonth);
+                mediaLastMonth = calculaMediaMes(lastMonth, timesLastMonth);
 
                 var diferenciaConMesPasado;
                 if (mediaLastMonth != 0) {
@@ -379,13 +374,13 @@ bot.command(('Stats'), ctx => {
 
 
 
-                var res = '💩 Estadísticas de ' + newData + ' 💩\n';
+                var res = '🧮 Estadísticas de ' + newData + ' 🧮\n';
                 res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
-                res += '- Hoy has cagado ' + cacasToday + ' veces.\n';
-                res += '- Este mes has cagado ' + cacasThisMonth + ' veces.\n';
-                res += '- Este año has cagado ' + cacasThisYear + ' veces.\n\n';
-                res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
-                res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
+                res += '- Hoy has aumentado tu contador ' + timesToday + ' veces.\n';
+                res += '- Este mes aumentaste tu contador ' + timesThisMonth + ' veces.\n';
+                res += '- Este año aumentaste tu contador ' + timesThisYear + ' veces.\n\n';
+                res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' registros al día.\n';
+                res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' registros al día';
 
                 if (diferenciaConMesPasado) {
                     res += ' que es un ' + Math.abs(diferenciaConMesPasado) + '%';
@@ -412,29 +407,29 @@ bot.command(('Stats'), ctx => {
     }
 });
 
-function calculaMediaMes(month, cacasMonth) {
+function calculaMediaMes(month, timesMonth) {
     //estadísticas por mes
     var mediaMonth = 0;
     // Primero tratamos febrero por ser especial
     if (month == 2) {
         if (bisiesto) {
-            mediaMonth = cacasMonth / 29;
+            mediaMonth = timesMonth / 29;
         } else {
-            mediaMonth = cacasMonth / 28;
+            mediaMonth = timesMonth / 28;
         }
         // ahora el resto de meses hasta Julio
     } else if (month != 2 && month < 8) {
         if (month % 2 == 0) {
-            mediaMonth = cacasMonth / 30;
+            mediaMonth = timesMonth / 30;
         } else {
-            mediaMonth = cacasMonth / 31;
+            mediaMonth = timesMonth / 31;
         }
         // de Agosto a Diciembre
     } else if (month >= 8) {
         if (month % 2 == 0) {
-            mediaMonth = cacasMonth / 31;
+            mediaMonth = timesMonth / 31;
         } else {
-            mediaMonth = cacasMonth / 30;
+            mediaMonth = timesMonth / 30;
         }
     }
 
