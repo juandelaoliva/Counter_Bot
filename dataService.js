@@ -1,26 +1,42 @@
-const fs = require('fs');
-var usrFileName = "./users.json";
+
+//firebase
+const firebaseConfig = require('./firebaseConfig');
+const firebase = require('firebase');
+const app = firebase.initializeApp({
+    apiKey: firebaseConfig.apiKey,
+    authDomain: firebaseConfig.authDomain,
+    databaseURL: firebaseConfig.databaseURL,
+    projectId: firebaseConfig.projectId,
+    storageBucket: firebaseConfig.storageBucket,
+    messagingSenderId: firebaseConfig.messagingSenderId,
+    appId: firebaseConfig.appId,
+    measurementId: firebaseConfig.measurementId
+});
+const ref = firebase.database().ref();
+var sitesRef = ref.child("users");
 
 var users = {};
-var fileLocked = false;
+
 
 function loadUsers() {
-    fs.readFile(usrFileName, (err, data) => {
-        if (err) throw err;
-        users = JSON.parse(data);
-        //console.log('Así carga el archivo: \n',users);
-    });
+
+    // Get a database reference to our users
+    var usersRef = firebase.database().ref("users");
+
+    // Attach an asynchronous callback to read the data at our posts reference
+    usersRef.on("value", function (snapshot) {
+        if (snapshot.val() == null) {
+            sitesRef.set({});
+        }
+        users = snapshot.val();
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    })
 }
 
 function saveUsers() {
-    if (!fileLocked) {
-        fileLocked = true;
-        var json = JSON.stringify(users);
-        fs.writeFile(usrFileName, json, 'utf8', function (err) {
-            if (err) throw err;
-            fileLocked = false;
-        })
-    }
+    sitesRef.set(users);
 }
 
 function registerUser(msg) {
@@ -55,14 +71,17 @@ function assertCounter(uid, id) {
             }
             else {
                 users[uid].counter[id] = 0;
-                users[uid].stats[id] = [];
             }
         }
         else {
             users[uid].counter = {};
             users[uid].counter[id] = 0;
+
             users[uid].stats = {};
-            users[uid].stats[id] = [];
+            users[uid].stats[id] = {
+                'enabled': true,
+            };
+
         }
         saveUsers();
     }
@@ -79,27 +98,32 @@ function setCounter(uid, id, val) {
     assertCounter(uid, id);
 
     var oldVal = users[uid].counter[id];
-    var moment = createStats();
     var diferencia = val - oldVal;
+    var moment = createStats().getTime();
+    var arrayStat = [];
+
+    if (users[uid].stats[id].dates) {
+        arrayStat = Object.values(users[uid].stats[id].dates);
+    }
 
     if (diferencia > 0) {
         var i;
         for (i = 0; i < diferencia; i++) {
-            users[uid].stats[id].push(moment);
+            arrayStat.push(moment);
+
         }
     } else if (diferencia < 0) {
         for (i = 0; i > diferencia; i--) {
-            users[uid].stats[id].pop();
+            arrayStat.pop();
         }
     }
 
-
+    users[uid].stats[id].dates = arrayStat;
     users[uid].counter[id] = val;
-
 
     setTimeout(() => {
         saveUsers();
-    }, 50);
+    }, 4000);
 
 }
 
@@ -115,7 +139,8 @@ function getCounter(uid, id) {
 
 function getStats(uid, id) {
     assertCounter(uid, id);
-    return users[uid].stats[id];
+    var dates = Object.values(users[uid].stats[id].dates);
+    return dates;
 }
 
 function getAllCounters(uid) {

@@ -8,7 +8,11 @@ const config = require('./config');
 const dataService = require('./dataService');
 var _ = require('lodash');
 
+dataService.loadUsers();
+
 const bot = new Telegraf(config.botToken);
+
+
 const AnimationUrl1 = 'https://media.giphy.com/media/R9cQo06nQBpRe/giphy.gif'
 const AnimationUrl2 = 'https://media.giphy.com/media/tfwj5xK0G7fTa/giphy.gif'
 
@@ -48,7 +52,7 @@ bot.telegram.getMe().then((botInfo) => {
     console.log("Initialized", botInfo.username);
 });
 
-dataService.loadUsers();
+
 
 function userString(ctx) {
     return JSON.stringify(ctx.from.id == ctx.chat.id ? ctx.from : {
@@ -106,6 +110,43 @@ bot.command('modificar', (ctx) => {
             m.callbackButton('+100', 100)
         ])))
 })
+
+bot.on('callback_query', (ctx) => {
+    try {
+        var from = userString(ctx);
+        var newData = JSON.parse(from).username;
+        if (newData == null) {
+            newData = (JSON.parse(from).from.username);
+        }
+        if (newData == null) {
+            throw TypeError;
+        }
+        var counterId = newData || 0;
+
+        var val = +dataService.getCounter(ctx.chat.id, counterId);
+        var delta = parseInt(ctx.callbackQuery.data);
+
+
+        val = val + delta;
+        if (val < 0) {
+            val = 0;
+        }
+        dataService.setCounter(ctx.chat.id, counterId, val);
+
+        var printCounterId = counterId ? "[" + counterId + "] " : "";
+        val = printCounterId + val + " 💩";
+
+        console.log(ctx.callbackQuery.data)
+        logOutMsg(ctx, val);
+        ctx.reply(val);
+        ctx.answerCbQuery(ctx.callbackQuery.data, "recibido!")
+    } catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(nameErrMsg);
+        }
+    }
+})
+
 
 
 bot.command('start', ctx => {
@@ -193,32 +234,31 @@ bot.command(('SumaCaca'), ctx => {
         if (counterId == null) {
             throw TypeError;
         } else {
-
-            var val = +dataService.getCounter(ctx.chat.id, counterId);
+            var val = dataService.getCounter(ctx.chat.id, counterId);
             val++;
             dataService.setCounter(ctx.chat.id, counterId, val);
 
             var printCounterId = counterId ? "[" + counterId + "] " : "";
             if (val != 0 && val % 50 == 0 && val != 100) {
-                val = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
+                var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
                 setTimeout(() => {
                     ctx.replyWithAnimation(AnimationUrl1);
                     logOutMsg(ctx, 0)
                 }, 50);
             } else if (val == 100) {
-                val = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
+                var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
                 setTimeout(() => {
                     ctx.replyWithAnimation(AnimationUrl2);
                     logOutMsg(ctx, 0)
                 }, 50);
             } else {
-                val = printCounterId + val + " 💩";
+                var res = printCounterId + val + " 💩";
             }
 
         }
 
-        logOutMsg(ctx, val);
-        ctx.reply(val);
+        logOutMsg(ctx, res);
+        ctx.reply(res);
 
     } catch (e) {
         if (e instanceof TypeError) {
@@ -241,7 +281,7 @@ bot.command(('quitacaca'), ctx => {
             throw TypeError;
         }
 
-        var val = +dataService.getCounter(ctx.chat.id, counterId);
+        var val = dataService.getCounter(ctx.chat.id, counterId);
         val--;
         if (val < 0) {
             val = 0;
@@ -327,7 +367,7 @@ bot.command(('Stats'), ctx => {
 
 
                 for (var i = 0; i < stats.length; i++) {
-                    var logDate = new Date(Date.parse(stats[i]));
+                    var logDate = new Date(stats[i]);
 
                     var logYear = logDate.getFullYear();
                     var logMonth = logDate.getMonth() + 1;
