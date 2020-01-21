@@ -77,12 +77,26 @@ function assertCounter(uid, id) {
             users[uid].counter = {};
             users[uid].counter[id] = 0;
 
+        }
+        if (users[uid].stats) {
+            if (users[uid].stats[id]) {
+                return true;
+            }
+            else {
+                users[uid].counter[id] = 0;
+                users[uid].stats[id] = {
+                    'enabled': true,
+                };
+            }
+        }
+        else {
             users[uid].stats = {};
             users[uid].stats[id] = {
                 'enabled': true,
             };
 
         }
+
         saveUsers();
     }
     else {
@@ -90,6 +104,7 @@ function assertCounter(uid, id) {
         users[uid] = usr;
         saveUsers();
     }
+
 }
 
 
@@ -102,8 +117,11 @@ function setCounter(uid, id, val) {
     var moment = createStats().getTime();
     var arrayStat = [];
 
+
+
     if (users[uid].stats[id].dates) {
         arrayStat = Object.values(users[uid].stats[id].dates);
+
     }
 
     if (diferencia > 0) {
