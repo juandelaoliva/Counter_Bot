@@ -433,13 +433,11 @@ bot.command(('Stats'), ctx => {
                 var res = '💩 Estadísticas de ' + newData + ' 💩\n';
                 res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
                 res += '- Hoy has cagado ' + cacasToday;
-                if (cacasToday == 1) {
-                    res += ' vez.\n'
-                } else {
-                    res += ' veces.\n';
-                }
-                res += '- Este mes has cagado ' + cacasThisMonth + ' veces.\n';
-                res += '- Este año has cagado ' + cacasThisYear + ' veces.\n\n';
+                cacasToday == 1 ?  res += ' vez.\n' :  res += ' veces.\n';
+                res += '- Este mes has cagado ' + cacasThisMonth;
+                cacasThisMonth == 1 ?  res += ' vez.\n' :  res += ' veces.\n';
+                res += '- Este año has cagado ' + cacasThisYear;
+                cacasThisYear == 1 ?  res += ' vez.\n\n' :  res += ' veces.\n\n';
                 res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
                 res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
 
@@ -509,49 +507,49 @@ bot.startPolling();
 
 
 
-// bot.command(('Graph'), ctx => {
-//     try {
-//         var from = userString(ctx);
+bot.command(('Graph'), ctx => {
+    try {
+        var from = userString(ctx);
 
-//         var newData = JSON.parse(from).username;
-//         if (newData == null) {
-//             newData = (JSON.parse(from).from.username);
-//         }
-//         if (newData == null) {
-//             throw TypeError;
-//         } else {
-//             var graph;
-//             if (ctx.chat.type == 'group') {
+        var newData = JSON.parse(from).username;
+        if (newData == null) {
+            newData = (JSON.parse(from).from.username);
+        }
+        if (newData == null) {
+            throw TypeError;
+        } else {
+            var graph;
+            if (ctx.chat.type == 'group') {
 
-//                 var words = ctx.message.text.split(' ');
-//                 words.shift(); //borramos la primera palabra  (que es la llamada al comando)
+                var words = ctx.message.text.split(' ');
+                words.shift(); //borramos la primera palabra  (que es la llamada al comando)
 
-//                 if (words[0] == 'propio') {
-//                     history = dataService.getHistory(ctx.chat.id, newData);
-//                     graph = graphs.generateYearGraph(history, newData);
-//                     ctx.replyWithPhoto(graph);
-//                 } else {
-//                     graph = graphs.getGroupGraph(ctx.chat.id);
-//                     ctx.replyWithPhoto(graph);
-//                 }
+                if (words[0] == 'propio') {
+                    history = dataService.getHistory(ctx.chat.id, newData);
+                    graph = graphs.generateYearGraph(history, newData);
+                    ctx.replyWithPhoto(graph);
+                } else {
+                    graph = graphs.getGroupGraph(ctx.chat.id);
+                    ctx.replyWithPhoto(graph);
+                }
 
-//             } else {
-//                 history = dataService.getHistory(ctx.chat.id, newData);
-//                 graph = graphs.generateYearGraph(history, newData);
-//                 ctx.replyWithPhoto(graph);
+            } else {
+                history = dataService.getHistory(ctx.chat.id, newData);
+                graph = graphs.generateYearGraph(history, newData);
+                ctx.replyWithPhoto(graph);
 
-//             }
-//         }
+            }
+        }
 
-//         logOutMsg(ctx, newData + ': Graph generated');
-//     }
-//     catch (e) {
-//         if (e instanceof TypeError) {
-//             ctx.reply(ErrMsg);
-//             console.log(e);
-//         }
-//     }
-// });
+        logOutMsg(ctx, newData + ': Graph generated');
+    }
+    catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(ErrMsg);
+            console.log(e);
+        }
+    }
+});
 
 
 
