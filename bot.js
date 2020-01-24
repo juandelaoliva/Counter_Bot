@@ -428,7 +428,12 @@ bot.command(('Stats'), ctx => {
 
                 var res = '💩 Estadísticas de ' + newData + ' 💩\n';
                 res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
-                res += '- Hoy has cagado ' + cacasToday + ' veces.\n';
+                res += '- Hoy has cagado ' + cacasToday;
+                if (cacasToday == 1) {
+                    res += ' vez.\n'
+                } else {
+                    res += ' veces.\n';
+                }
                 res += '- Este mes has cagado ' + cacasThisMonth + ' veces.\n';
                 res += '- Este año has cagado ' + cacasThisYear + ' veces.\n\n';
                 res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
