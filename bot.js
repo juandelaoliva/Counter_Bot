@@ -6,6 +6,9 @@ const {
 
 const config = require('./config');
 const dataService = require('./dataService');
+const graphs = require('./graphs.js');
+
+
 var _ = require('lodash');
 
 dataService.loadUsers();
@@ -40,7 +43,8 @@ const helpMsg = `💩Comandos de referencia:💩
 
 const aboutMsg = "Este bot ha sido creado por @juandelaoliva utilizando el proyecto base de contador de  @LeoDJ\nCódigo fuente y datos de contacto se pueden encontrar en https://github.com/LeoDJ/telegram-counter-bot";
 
-const nameErrMsg = "Para usar este bot es necesario inciar el bot con el comando /start y tener un alias o nombre de usuario de Telegram";
+const nameErrMsg = "Para usar este bot es necesario tener un alias o nombre de usuario de Telegram, también puede que no hayas iniciado el bot.\n ⚠️ Al iniciar el bot todos los contadores se pondrán a cero, el comando necesario para iniciar es start (con una barra delante '/')";
+const ErrMsg = "Ups! parece que algo ha ido mal intentalo más tarde o ponte en contacto con mi creador.";
 
 function getRegExp(command) {
     return new RegExp("/" + command + "[a-z,A-Z,0-9]{0,25}\\b");
@@ -94,6 +98,8 @@ bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot median
 bot.hears(/cagando/i, (ctx) => ctx.reply("💩 espero que estéis cagando bien 💩"));
 bot.hears(/mierda/i, (ctx) => ctx.reply("💩 mierda? vamos allá! 💩"));
 bot.hears(/peste/i, (ctx) => ctx.reply("💩 jejeje ha dicho peste 💩"));
+bot.hears(/Luis/i, (ctx) => ctx.reply("💩 Luis Gay 💩"));
+
 
 
 
@@ -317,6 +323,7 @@ bot.command('broadcast', ctx => {
     }
 });
 
+
 //---------------------------------------------Estadísticas---------------------------------------------------------------
 
 
@@ -409,7 +416,7 @@ bot.command(('Stats'), ctx => {
                     mediaThisYear = cacasThisYear / 365;
                 }
 
-                mediaThisMonth = calculaMediaMes(thisMonth, cacasThisMonth);
+                mediaThisMonth = cacasThisMonth / thisDay;
                 mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth);
 
                 var diferenciaConMesPasado;
@@ -436,7 +443,6 @@ bot.command(('Stats'), ctx => {
                     }
                     res += ' que el mes pasado';
                 }
-
 
                 ctx.reply(res);
             } else {
@@ -482,6 +488,54 @@ function calculaMediaMes(month, cacasMonth) {
 }
 
 bot.startPolling();
+
+
+
+// bot.command(('Graph'), ctx => {
+//     try {
+//         var from = userString(ctx);
+
+//         var newData = JSON.parse(from).username;
+//         if (newData == null) {
+//             newData = (JSON.parse(from).from.username);
+//         }
+//         if (newData == null) {
+//             throw TypeError;
+//         } else {
+//             var graph;
+//             if (ctx.chat.type == 'group') {
+
+//                 var words = ctx.message.text.split(' ');
+//                 words.shift(); //borramos la primera palabra  (que es la llamada al comando)
+
+//                 if (words[0] == 'propio') {
+//                     history = dataService.getHistory(ctx.chat.id, newData);
+//                     graph = graphs.generateYearGraph(history, newData);
+//                     ctx.replyWithPhoto(graph);
+//                 } else {
+//                     graph = graphs.getGroupGraph(ctx.chat.id);
+//                     ctx.replyWithPhoto(graph);
+//                 }
+
+//             } else {
+//                 history = dataService.getHistory(ctx.chat.id, newData);
+//                 graph = graphs.generateYearGraph(history, newData);
+//                 ctx.replyWithPhoto(graph);
+
+//             }
+//         }
+
+//         logOutMsg(ctx, newData + ': Graph generated');
+//     }
+//     catch (e) {
+//         if (e instanceof TypeError) {
+//             ctx.reply(ErrMsg);
+//             console.log(e);
+//         }
+//     }
+// });
+
+
 
 
 module.exports = {
