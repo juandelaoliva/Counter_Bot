@@ -407,14 +407,18 @@ bot.command(('Stats'), ctx => {
 
 
                 //calculamos si este año es bisiesto o no
-                var bisiesto = false;
-                if (thisYear % 400 == 0 || (thisYear % 4 == 0 && thisYear % 100 != 0)) {
-                    bisiesto = true;
-                    mediaThisYear = cacasThisYear / 366;
-                } else {
-                    bisiesto = false;
-                    mediaThisYear = cacasThisYear / 365;
-                }
+                // var bisiesto = false;
+                // if (thisYear % 400 == 0 || (thisYear % 4 == 0 && thisYear % 100 != 0)) {
+                //     bisiesto = true;
+                //     mediaThisYear = cacasThisYear / 366;
+                // } else {
+                //     bisiesto = false;
+                //     mediaThisYear = cacasThisYear / 365;
+                // }
+
+                mediaThisYear = cacasThisYear / calculaNumeroDia();
+
+
 
                 mediaThisMonth = cacasThisMonth / thisDay;
                 mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth);
@@ -490,6 +494,15 @@ function calculaMediaMes(month, cacasMonth) {
     }
 
     return mediaMonth;
+}
+
+function calculaNumeroDia() {
+    var now = new Date();
+    var start = new Date(now.getFullYear(), 0, 0);
+    var diff = now - start;
+    var oneDay = 1000 * 60 * 60 * 24;
+    var day = Math.floor(diff / oneDay);
+    return day;
 }
 
 bot.startPolling();
