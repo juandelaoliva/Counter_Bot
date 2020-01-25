@@ -32,6 +32,7 @@ const helpMsg = `💩Comandos de referencia:💩
 /SumaCaca - Aumenta en una unidad tu contador de caca
 /Ranking - Muestra las cacas de todos
 /Stats - Muestra tus estadísticas
+/Graph - Muesta un gráfico anual
 /menuprincipal - Muestra los botones principales
 /quitacaca - Decrementa una unidad de caca
 /modificar - Cambia tus cacas a lo grande
