@@ -24,13 +24,14 @@ function chartUrl(chart) {
 }
 function getGroupGraph(uid) {
     var groupHistories = dataService.getGroupHistories(uid);
+    var groupName = groupHistories[0];
     var today = new Date();
     var month = today.getMonth() + 1;
     var datasets = [];
     var labels = getMonthsStrings(month);
 
 
-    for (var i = 0; i < groupHistories.length; i++) {
+    for (var i = 1; i < groupHistories.length; i++) {
         var username = Object.keys(groupHistories[i])[0];
         if (groupHistories[i][username]) {
             history = groupHistories[i][username];
@@ -57,7 +58,27 @@ function getGroupGraph(uid) {
         data: {
             labels: labels,
             datasets: datasets
-        }
+        },
+        options: {
+            title: {
+              display: true,
+              text: groupName,
+              fontColor: 'hotpink',
+              fontSize: 25,
+            },
+            legend: {
+              position: 'bottom',
+            },
+            
+            plugins: {
+              datalabels: {
+                display: true,
+                font: {
+                  style: 'bold',
+                },
+              },
+            },
+          }
     };
 
 
@@ -89,7 +110,27 @@ function generateYearGraph(history, username, year) {
                 label: username,
                 data: data
             }]
-        }
+        },
+        options: {
+            title: {
+              display: true,
+              text: year,
+              fontColor: 'hotpink',
+              fontSize: 25,
+            },
+            legend: {
+              position: 'bottom',
+            },
+            
+            plugins: {
+              datalabels: {
+                display: true,
+                font: {
+                  style: 'bold',
+                },
+              },
+            },
+          }
     };
 
     return chartUrl(chart);

@@ -241,7 +241,7 @@ function getHistory(uid, id) {
 function getGroupHistories(uid) {
     console.log(uid);
     if (users[uid].data.chat.type == "group") {
-        var histories = [];
+        var histories = [users[uid].data.chat.title];
         for (var i = 0; i < Object.keys(users[uid].stats).length; i++) {
             var name = Object.keys(users[uid].stats)[i];
             var hist = users[uid].stats[name].history;
@@ -254,6 +254,7 @@ function getGroupHistories(uid) {
         console.log(-1);
     }
 }
+
 
 module.exports = {
     loadUsers,
