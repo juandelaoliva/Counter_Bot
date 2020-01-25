@@ -81,7 +81,8 @@ function logOutMsg(ctx, text) {
 
 const menuPrincipal = Markup
     .keyboard([
-        ['/SumaCaca', '/Ranking', '/Stats'] // Row3 with 3 buttons
+        ['/SumaCaca'],
+        ['/Ranking', '/Stats', '/Graph'] // Row3 with 3 buttons
     ])
     .oneTime()
     .resize()
