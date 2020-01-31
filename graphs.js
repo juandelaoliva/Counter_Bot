@@ -28,6 +28,8 @@ function getGroupGraph(uid) {
   var groupHistories = dataService.getGroupHistories(uid);
   var groupName = groupHistories[0];
   var today = new Date();
+  today = new Date(today);
+  today = today.setHours(today.getHours() + 1);
   var month = today.getMonth() + 1;
   var datasets = [];
   var labels = getMonthsStrings(month);
@@ -90,6 +92,8 @@ function getGroupGraph2(uid) {
   var groupHistories = dataService.getGroupHistories(uid);
   var groupName = groupHistories[0];
   var today = new Date();
+  today = today.setHours(today.getHours() + 1);
+  today = new Date(today);
   var month = today.getMonth() + 1;
   var datasets = [];
   var monthss = getMonthsStrings(month);
