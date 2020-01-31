@@ -7,6 +7,7 @@ const {
 const config = require('./config');
 const dataService = require('./dataService');
 const graphs = require('./graphs.js');
+const gifs = require('./gifs.js');
 
 
 var _ = require('lodash');
@@ -14,10 +15,6 @@ var _ = require('lodash');
 dataService.loadUsers();
 
 const bot = new Telegraf(config.botToken);
-
-
-const AnimationUrl1 = 'https://media.giphy.com/media/R9cQo06nQBpRe/giphy.gif'
-const AnimationUrl2 = 'https://media.giphy.com/media/tfwj5xK0G7fTa/giphy.gif'
 
 const initMsg = `💩 Bienvenido al Cagómetro 💩 este bot te ayudará a contar cuántas cacas haces de una manera muy sencilla. 
 
@@ -33,6 +30,8 @@ const helpMsg = `💩Comandos de referencia:💩
 /Ranking - Muestra las cacas de todos
 /Stats - Muestra tus estadísticas
 /Graph - Muesta un gráfico anual
+(Si estás en un grupo y quieres crear tu propio gráfico escribe el comando seguido de un espacio y la palabra 'propio')
+
 /menuprincipal - Muestra los botones principales
 /quitacaca - Decrementa una unidad de caca
 /modificar - Cambia tus cacas a lo grande
@@ -97,10 +96,15 @@ bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot median
 
 //---------------------------------------------RESPUESTAS AUTOMÁTICAS---------------------------------------------------------------
 
-bot.hears(/cagando/i, (ctx) => ctx.reply("💩 espero que estéis cagando bien 💩"));
+bot.hears(/caga/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nunevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
+bot.hears(/cago/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nunevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
 bot.hears(/mierda/i, (ctx) => ctx.reply("💩 mierda? vamos allá! 💩"));
 bot.hears(/peste/i, (ctx) => ctx.reply("💩 jejeje ha dicho peste 💩"));
-bot.hears(/Luis/i, (ctx) => ctx.reply("💩 Luis Gay 💩"));
+bot.hears(/Guille/i, (ctx) => ctx.reply("💩 Cómeme las pelotas Guille 💩"));
+bot.hears(/(^caca)|(\Wcaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
+bot.hears(/(^Caca)|(\WCaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
+bot.hears('gif', (ctx) => ctx.replyWithAnimation(gifs.getRandomGif()));
+
 
 
 
@@ -118,6 +122,7 @@ bot.command('modificar', (ctx) => {
             m.callbackButton('+100', 100)
         ])))
 })
+
 
 bot.on('callback_query', (ctx) => {
     try {
@@ -250,13 +255,13 @@ bot.command(('SumaCaca'), ctx => {
             if (val != 0 && val % 50 == 0 && val != 100) {
                 var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
                 setTimeout(() => {
-                    ctx.replyWithAnimation(AnimationUrl1);
+                    ctx.replyWithAnimation(gifs.getRandomGif());
                     logOutMsg(ctx, 0)
                 }, 50);
             } else if (val == 100) {
                 var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
                 setTimeout(() => {
-                    ctx.replyWithAnimation(AnimationUrl2);
+                    ctx.replyWithAnimation(gifs.getRandomGif());
                     logOutMsg(ctx, 0)
                 }, 50);
             } else {
@@ -430,16 +435,18 @@ bot.command(('Stats'), ctx => {
                     diferenciaConMesPasado = ((mediaThisMonth / mediaLastMonth) * 100) - 100;
                 }
 
+                //Checking hours
 
+                console.log('hourOnServer---->' + today.getHours() + ':' + today.getMinutes());
 
                 var res = '💩 Estadísticas de ' + newData + ' 💩\n';
                 res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
                 res += '- Hoy has cagado ' + cacasToday;
-                cacasToday == 1 ?  res += ' vez.\n' :  res += ' veces.\n';
+                cacasToday == 1 ? res += ' vez.\n' : res += ' veces.\n';
                 res += '- Este mes has cagado ' + cacasThisMonth;
-                cacasThisMonth == 1 ?  res += ' vez.\n' :  res += ' veces.\n';
+                cacasThisMonth == 1 ? res += ' vez.\n' : res += ' veces.\n';
                 res += '- Este año has cagado ' + cacasThisYear;
-                cacasThisYear == 1 ?  res += ' vez.\n\n' :  res += ' veces.\n\n';
+                cacasThisYear == 1 ? res += ' vez.\n\n' : res += ' veces.\n\n';
                 res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
                 res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
 
@@ -454,6 +461,13 @@ bot.command(('Stats'), ctx => {
                 }
 
                 ctx.reply(res);
+
+
+                if (newData == 'TimelNegro'){
+                    setTimeout(() => {
+                        ctx.reply("💩 Guille estas estadísticas pueden ser útiles, o no, depende de como se mire. Por un lado el conocimiento es poder, pero por otro lado, los ignorantes son más felices. En fin Guille, que me comas las pelotas. 💩");
+                    }, 90);  //delay para enviar este mensaje como segundo mensaje
+                }
             } else {
                 ctx.reply('Ninguna estadística disponible');
             }
@@ -531,7 +545,7 @@ bot.command(('Graph'), ctx => {
                     graph = graphs.generateYearGraph(history, newData);
                     ctx.replyWithPhoto(graph);
                 } else {
-                    graph = graphs.getGroupGraph(ctx.chat.id);
+                    graph = graphs.getGroupGraph2(ctx.chat.id);
                     ctx.replyWithPhoto(graph);
                 }
 

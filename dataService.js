@@ -221,7 +221,6 @@ function generateHistory(uid, id, stats) {
     }
    
     users[uid].stats[id].history = history;
-    console.log(history[2020].months);
     saveUsers();
 }
 
@@ -232,14 +231,12 @@ function getAllCounters(uid) {
 function getHistory(uid, id) {
     if (users[uid].stats[id].history) {
         return users[uid].stats[id].history;
-        console.log(users[uid].stats[id].history);
     } else {
         return false;
     }
 }
 
 function getGroupHistories(uid) {
-    console.log(uid);
     if (users[uid].data.chat.type == "group") {
         var histories = [users[uid].data.chat.title];
         for (var i = 0; i < Object.keys(users[uid].stats).length; i++) {
