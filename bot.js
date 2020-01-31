@@ -351,6 +351,9 @@ bot.command(('Stats'), ctx => {
             if (stats.length > 0) {
 
                 var today = new Date();
+                today = today.setHours(today.getHours() + 1);
+                today = new Date(today);
+
 
                 var thisDay = today.getDate();
                 var thisYear = today.getFullYear();
@@ -437,7 +440,7 @@ bot.command(('Stats'), ctx => {
 
                 //Checking hours
 
-                console.log('hourOnServer---->' + today.getHours() + ':' + today.getMinutes());
+                console.log('hourOnSpain---->' + today.getHours() + ':' + today.getMinutes());
 
                 var res = '💩 Estadísticas de ' + newData + ' 💩\n';
                 res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
@@ -512,6 +515,8 @@ function calculaMediaMes(month, cacasMonth) {
 
 function calculaNumeroDia() {
     var now = new Date();
+    now = now.setHours(now.getHours() + 1);
+    now = new Date(now);
     var start = new Date(now.getFullYear(), 0, 0);
     var diff = now - start;
     var oneDay = 1000 * 60 * 60 * 24;
