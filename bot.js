@@ -440,7 +440,6 @@ bot.command(('Stats'), ctx => {
 
                 //Checking hours
 
-                console.log('hourOnSpain---->' + today.getHours() + ':' + today.getMinutes());
 
                 var res = '💩 Estadísticas de ' + newData + ' 💩\n';
                 res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
@@ -454,7 +453,7 @@ bot.command(('Stats'), ctx => {
                 res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
 
                 if (diferenciaConMesPasado) {
-                    res += ' que es un ' + Math.abs(diferenciaConMesPasado) + '%';
+                    res += ' que es un ' + Math.abs(diferenciaConMesPasado).toFixed(2) + '%';
                     if (diferenciaConMesPasado >= 0) {
                         res += ' más';
                     } else if (diferenciaConMesPasado < 0) {
