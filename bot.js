@@ -196,7 +196,8 @@ bot.command('about', ctx => {
 bot.command(('Ranking'), ctx => {
     logMsg(ctx);
     // Cogemos todos los contadores del chat
-    counters = dataService.getAllCounters(ctx.chat.id);
+    //counters = dataService.getAllCounters(ctx.chat.id);
+   var counters;
     if (counters == null) {
         ctx.reply("🥇 💩 Nadie ha registrado ninguna caca todavía 💩")
     } else {
