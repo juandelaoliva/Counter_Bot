@@ -416,22 +416,12 @@ bot.command(('Stats'), ctx => {
                 }
 
 
-                //calculamos si este año es bisiesto o no
-                // var bisiesto = false;
-                // if (thisYear % 400 == 0 || (thisYear % 4 == 0 && thisYear % 100 != 0)) {
-                //     bisiesto = true;
-                //     mediaThisYear = cacasThisYear / 366;
-                // } else {
-                //     bisiesto = false;
-                //     mediaThisYear = cacasThisYear / 365;
-                // }
-
                 mediaThisYear = cacasThisYear / calculaNumeroDia();
 
 
 
                 mediaThisMonth = cacasThisMonth / thisDay;
-                mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth);
+                mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth, thisYear);
 
                 var diferenciaConMesPasado;
                 if (mediaLastMonth != 0) {
@@ -465,7 +455,7 @@ bot.command(('Stats'), ctx => {
                 ctx.reply(res);
 
 
-                if (newData == 'TimelNegro'){
+                if (newData == 'TimelNegro') {
                     setTimeout(() => {
                         ctx.reply("💩 Guille estas estadísticas pueden ser útiles, o no, depende de como se mire. Por un lado el conocimiento es poder, pero por otro lado, los ignorantes son más felices. En fin Guille, que me comas las pelotas. 💩");
                     }, 90);  //delay para enviar este mensaje como segundo mensaje
@@ -483,11 +473,20 @@ bot.command(('Stats'), ctx => {
     }
 });
 
-function calculaMediaMes(month, cacasMonth) {
+function calculaMediaMes(month, cacasMonth, thisYear) {
     //estadísticas por mes
     var mediaMonth = 0;
     // Primero tratamos febrero por ser especial
     if (month == 2) {
+
+        //calculamos si este año es bisiesto o no
+        var bisiesto;
+        if (thisYear % 400 == 0 || (thisYear % 4 == 0 && thisYear % 100 != 0)) {
+            bisiesto = true;
+        } else {
+            bisiesto = false;
+        }
+
         if (bisiesto) {
             mediaMonth = cacasMonth / 29;
         } else {
