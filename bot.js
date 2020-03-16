@@ -571,6 +571,35 @@ bot.command(('Graph'), ctx => {
 });
 
 
+bot.command(('Hours'), ctx => {
+    try {
+        var from = userString(ctx);
+
+        var newData = JSON.parse(from).username;
+        if (newData == null) {
+            newData = (JSON.parse(from).from.username);
+        }
+        if (newData == null) {
+            throw TypeError;
+        } else {
+            var graph;
+            dates = dataService.getStats(ctx.chat.id, newData);
+            graph = graphs.generateHoursGraph(dates, newData);
+            ctx.replyWithPhoto(graph);
+
+        }
+
+        logOutMsg(ctx, newData + ': Graph generated');
+    }
+    catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(ErrMsg);
+            console.log(e);
+        }
+    }
+});
+
+
 
 
 module.exports = {
