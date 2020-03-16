@@ -158,7 +158,7 @@ function setCounter(uid, id, val) {
 
 function decrementHistory(uid, id, date) {
     users[uid].stats[id].history[date.getFullYear()].total--;
-    users[uid].stats[id].history[date.getFullYear()].months[date.getMonth()]--;
+    users[uid].stats[id].history[date.getFullYear()].months[date.getMonth()+1]--;
     users[uid].stats[id].history[date.getFullYear()].days[date.getDate()]--;
     users[uid].stats[id].history[date.getFullYear()].hours[date.getHours()]--;
     users[uid].stats[id].history[date.getFullYear()].minutes[date.getMinutes()]--;
