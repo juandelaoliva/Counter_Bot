@@ -162,7 +162,36 @@ function generateYearGraph(history, username, year) {
   return chartUrl(chart);
 }
 
+function generateHoursGraph(dates, username){
+  var label = username;
+  var dates = dates;
+  var data = [];
+
+  if(dates.length) {
+    for (i = 0; i < dates.length; i++) {
+      var logDate = new Date(dates[i]);
+      var minutes = logDate.getMinutes() / 60;
+      var time = logDate.getHours() + minutes;
+      data.push({x: i+1, y:time})
+    } 
+  }
+
+  var chart = {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: label,
+        data: data
+      }]
+    }
+  };
+
+  return chartUrl(chart);
+
+}
+
 module.exports = {
   generateYearGraph,
-  getGroupGraph2
+  getGroupGraph2,
+  generateHoursGraph
 };
