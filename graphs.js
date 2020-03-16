@@ -24,69 +24,6 @@ function chartUrl(chart, month) {
   return finalUrl;
 
 }
-function getGroupGraph(uid) {
-  var groupHistories = dataService.getGroupHistories(uid);
-  var groupName = groupHistories[0];
-  var today = new Date();
-  today = new Date(today);
-  today = today.setHours(today.getHours() + 1);
-  var month = today.getMonth() + 1;
-  var datasets = [];
-  var labels = getMonthsStrings(month);
-
-
-  for (var i = 1; i < groupHistories.length; i++) {
-    var username = Object.keys(groupHistories[i])[0];
-    if (groupHistories[i][username]) {
-      history = groupHistories[i][username];
-      var data = [];
-      for (var e = 0; e < month; e++) {
-        if (history[today.getFullYear()].months[e + 1]) {
-          data.push(history[today.getFullYear()].months[e + 1]);
-        } else {
-          data.push(0);
-        }
-      }
-      var dataset = {
-        label: username,
-        data: data
-      }
-      datasets.push(dataset);
-    }
-
-  }
-
-
-  var chart = {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: datasets
-    },
-    options: {
-      title: {
-        display: true,
-        text: groupName,
-        fontColor: 'hotpink',
-        fontSize: 25,
-      },
-      legend: {
-        position: 'bottom',
-      },
-
-      plugins: {
-        datalabels: {
-          display: true,
-          font: {
-            style: 'bold',
-          },
-        },
-      },
-    }
-  };
-
-  return chartUrl(chart);
-}
 
 function getGroupGraph2(uid) {
   var groupHistories = dataService.getGroupHistories(uid);
@@ -99,8 +36,6 @@ function getGroupGraph2(uid) {
   var monthss = getMonthsStrings(month);
   var labels = [];
   var labelsWithTotal = [];
-
-
 
   for (var i = 1; i < groupHistories.length; i++) {
     var username = Object.keys(groupHistories[i])[0];
@@ -185,8 +120,12 @@ function generateYearGraph(history, username, year) {
 
   var months = Object.keys(yearStats.months);
   labels = getMonthsStrings(months[months.length - 1]);
-  for (var i = 1; i < Object.keys(yearStats.months).length; i++) {
-    data.push(yearStats.months[Object.keys(yearStats.months)[i]]);
+  for (var i = 1; i < Number(months[months.length-1])+1; i++) {
+    if(yearStats.months[i]) {
+      data.push(yearStats.months[i]);
+    } else {
+      data.push(0);
+    }
   }
 
   var chart = {
@@ -223,18 +162,7 @@ function generateYearGraph(history, username, year) {
   return chartUrl(chart);
 }
 
-
-
-
-
 module.exports = {
   generateYearGraph,
-  getGroupGraph,
   getGroupGraph2
 };
-
-
-
-
-
-// https://quickchart.io/chart?c={%27type%27:%27bar%27,%27data%27:{%27labels%27:[%27JuanDrums%27,%27juandelaoliva%27],%27datasets%27:[{%27label%27:%27Enero%27,%27data%27:[2,119]}]},%27options%27:{%27title%27:{%27display%27:true,%27text%27:%272TestingPapa%27,%27fontColor%27:%27hotpink%27,%27fontSize%27:25},%27legend%27:{%27position%27:%27bottom%27},%27scales%27:{%27xAxes%27:[{%27stacked%27:true}],%27yAxes%27:[{%27stacked%27:true,%27ticks%27:{}}]},%27plugins%27:{%27datalabels%27:{%27display%27:true,%27font%27:{%27style%27:%27bold%27}}}}}
