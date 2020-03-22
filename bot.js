@@ -31,10 +31,12 @@ const helpMsg = `💩Comandos de referencia:💩
 /Stats - Muestra tus estadísticas
 /Graph - Muesta un gráfico anual
 (Si estás en un grupo y quieres crear tu propio gráfico escribe el comando seguido de un espacio y la palabra 'propio')
+/Hours - Muestra un estudio sobre las horas a las que sueles ir al baño
 
 /menuprincipal - Muestra los botones principales
 /quitacaca - Decrementa una unidad de caca
 /modificar - Cambia tus cacas a lo grande
+/latecaca - Suma una caca que se te había olvidado
 /ayuda - Pulsa aquí si tienes dudas
 /compartir - Haz que el Cagómetro vea mundo
 /donar - Para seguir mejorando este proyecto
@@ -45,6 +47,9 @@ const aboutMsg = "Este bot ha sido creado por @juandelaoliva utilizando el proye
 
 const nameErrMsg = "Para usar este bot es necesario tener un alias o nombre de usuario de Telegram, también puede que no hayas iniciado el bot.\n ⚠️ Al iniciar el bot todos los contadores se pondrán a cero, el comando necesario para iniciar es start (con una barra delante '/')";
 const ErrMsg = "Ups! parece que algo ha ido mal intentalo más tarde o ponte en contacto con mi creador.";
+
+const regexHours = new RegExp("^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$");
+const regexDate = new RegExp("^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-][0-9]{4}$");
 
 function getRegExp(command) {
     return new RegExp("/" + command + "[a-z,A-Z,0-9]{0,25}\\b");
@@ -82,7 +87,8 @@ function logOutMsg(ctx, text) {
 const menuPrincipal = Markup
     .keyboard([
         ['/SumaCaca'],
-        ['/Ranking', '/Stats', '/Graph'] // Row3 with 3 buttons
+        ['/Ranking', '/Stats'],
+        ['/Graph','/Hours']// Row3 with 3 buttons
     ])
     .oneTime()
     .resize()
@@ -96,11 +102,12 @@ bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot median
 
 //---------------------------------------------RESPUESTAS AUTOMÁTICAS---------------------------------------------------------------
 
-bot.hears(/caga/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nunevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
-bot.hears(/cago/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nunevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
+bot.hears(/caga/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
+bot.hears(/cago/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
 bot.hears(/mierda/i, (ctx) => ctx.reply("💩 mierda? vamos allá! 💩"));
 bot.hears(/peste/i, (ctx) => ctx.reply("💩 jejeje ha dicho peste 💩"));
-bot.hears(/Guille/i, (ctx) => ctx.reply("💩 Cómeme las pelotas Guille 💩"));
+bot.hears(/Camu/i, (ctx) => ctx.reply("💩 Camuñass métete a digestivo, que ya te tengo todo el trabajo hecho puto gafas 💩"));
+bot.hears(/Camuña/i, (ctx) => ctx.reply("💩 Camuñass cuando te despistes te limpiaré el ojete con papel celo 💩"));
 bot.hears(/(^caca)|(\Wcaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
 bot.hears(/(^Caca)|(\WCaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
 bot.hears('gif', (ctx) => ctx.replyWithAnimation(gifs.getRandomGif()));
@@ -237,7 +244,6 @@ bot.command(('Ranking'), ctx => {
 
 bot.command(('SumaCaca'), ctx => {
     try {
-
         var from = userString(ctx);
         // Comprobamos si el mensaje viene de un grupo o de un chat privado
         var counterId = JSON.parse(from).username;
@@ -278,9 +284,67 @@ bot.command(('SumaCaca'), ctx => {
             ctx.reply(nameErrMsg);
         }
     }
+});
+
+bot.command(('latecaca'), ctx => {
+    try {
+        var from = userString(ctx);
+        // Comprobamos si el mensaje viene de un grupo o de un chat privado
+        var counterId = JSON.parse(from).username;
+        if (counterId == null) {
+            counterId = (JSON.parse(from).from.username);
+        }
+        if (counterId == null) {
+            throw TypeError;
+        } else {
+            var words = ctx.message.text.split(' ');
+            words.shift(); //borramos la primera palabra  (que es la llamada al comando)
+
+            if (!words.length || words.length > 2) {
+                var explic = "💩 Este es un comándo con parámetros 💩\n\n";
+                explic += "Tienes dos maneras de usarlo:\n\n";
+                explic += "1.- Añadiendo solo la hora en formato HH:MM\n Ej.: /latecaca 13:00\n\n";
+                explic += "2.- Añadiendo la hora y la fecha en formato HH:MM dd/mm/yyyy\n Ej.: /latecaca 13:00 20/03/2020\n";
+                ctx.reply(explic);
+            } else if (words.length == 1 && !(regexHours.test(words[0]))) {
+                ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM 💩");
+            } else if (words.length == 2 && !(regexHours.test(words[0]) && regexDate.test(words[1]))) {
+                ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM dd/mm/yyyy 💩");
+            } else {
+
+                //-------------------------------------------------------
+                var val = dataService.getCounter(ctx.chat.id, counterId);
+                val++;
+                dataService.setCounterCustom(ctx.chat.id, counterId, val, words);
+
+                var printCounterId = counterId ? "[" + counterId + "] " : "";
+                if (val != 0 && val % 50 == 0 && val != 100) {
+                    var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
+                    setTimeout(() => {
+                        ctx.replyWithAnimation(gifs.getRandomGif());
+                        logOutMsg(ctx, 0)
+                    }, 50);
+                } else if (val == 100) {
+                    var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
+                    setTimeout(() => {
+                        ctx.replyWithAnimation(gifs.getRandomGif());
+                        logOutMsg(ctx, 0)
+                    }, 50);
+                } else {
+                    var res = printCounterId + val + " 💩";
+                }
+
+                logOutMsg(ctx, res);
+                ctx.reply(res);
+            }
+        }
 
 
-
+    } catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(nameErrMsg);
+        }
+    }
 });
 
 bot.command(('quitacaca'), ctx => {
@@ -455,9 +519,15 @@ bot.command(('Stats'), ctx => {
                 ctx.reply(res);
 
 
-                if (newData == 'TimelNegro') {
+                if (newData == 'Javcamcor') {
                     setTimeout(() => {
-                        ctx.reply("💩 Guille estas estadísticas pueden ser útiles, o no, depende de como se mire. Por un lado el conocimiento es poder, pero por otro lado, los ignorantes son más felices. En fin Guille, que me comas las pelotas. 💩");
+                        ctx.reply("💩 Paletas, usa el bidé que con la cuarentena no queda papel!🧻🧻 💩");
+                    }, 90);  //delay para enviar este mensaje como segundo mensaje
+                }
+
+                if (mediaThisMonth.toFixed(4) > 2.5 || mediaThisYear.toFixed(4) > 2.5) {
+                    setTimeout(() => {
+                        ctx.reply("💩 Con gente como "+newData+" normal que haya falta de abastecimiento de 🧻 \n Una media de más de 2.5 es mucha tela eh 💩");
                     }, 90);  //delay para enviar este mensaje como segundo mensaje
                 }
             } else {
@@ -582,13 +652,39 @@ bot.command(('Hours'), ctx => {
         if (newData == null) {
             throw TypeError;
         } else {
-            var graph;
             dates = dataService.getStats(ctx.chat.id, newData);
-            graph = graphs.generateHoursGraph(dates, newData);
-            ctx.replyWithPhoto(graph);
 
+            var hours = dataService.getHoursLog(dates, ctx.chat.id);
+
+            var top3 = dataService.getHoursTop3(hours);
+            var res = '💩Estudio de horas💩\n\n'
+            res += 'Tus horas más frecuentes son las siguientes:\n\n';
+            res += '- ' + top3.top3hours[0] + 'h es tu hora más frecuente con una cantidad de ' + top3.top3Amount[0] + '\n';
+            res += '- ' + top3.top3hours[1] + 'h es tu segunda hora más frecuente con una cantidad de ' + top3.top3Amount[1] + '\n';
+            res += '- ' + top3.top3hours[2] + 'h en tercer lugar con ' + top3.top3Amount[2] + '\n\n';
+            res += 'ℹ️ Puede haber varias horas con el mísmo número de cacas (consultar gráfico de barras) 💩\n';
+            if (ctx.chat.id == -353783471) {
+                res += "ℹ️ Al formar parte del grupo " + ctx.chat.title + ", no se han tenido en cuenta las cacas añadidas previas al 23 de Enero para el ranking de horas y el gráfico de barras. 💩";
+            }
+
+            setTimeout(() => {
+                ctx.reply(res);
+            }, 500);
+
+            setTimeout(() => {
+                ctx.replyWithPhoto(graphs.generateHoursBarGraph(hours, newData));
+            }, 1000);
+
+            setTimeout(() => {
+                ctx.reply('💩A continuación se mostrará un gráfico de una nube de puntos que representan todas las cacas hechas hasta la fecha ordenadas según la hora 💩');
+            }, 3000);
+
+            setTimeout(() => {
+                var graph;
+                graph = graphs.generateHoursGraph(dates, newData);
+                ctx.replyWithPhoto(graph);
+            }, 4000);
         }
-
         logOutMsg(ctx, newData + ': Graph generated');
     }
     catch (e) {
@@ -598,6 +694,8 @@ bot.command(('Hours'), ctx => {
         }
     }
 });
+
+
 
 
 
