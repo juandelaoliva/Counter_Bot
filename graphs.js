@@ -10,13 +10,17 @@ function getMonthsStrings(month) {
   return res;
 }
 
-function chartUrl(chart, month) {
+function chartUrl(chart, altomes, cambiarAncho) {
   var stringChart = '{';
   stringChart += JSON.stringify(chart);
+  var width = 500;
+  if (cambiarAncho) {
+    width = cambiarAncho;
+  }
   var splitted = stringChart.split("\"");
-  var changeheight = ((month / 10) + 1) * 300;
+  var changeheight = ((altomes / 10) + 1) * 300;
 
-  var finalUrl = 'https://quickchart.io/chart?width=500&height=' + changeheight + '&c={';
+  var finalUrl = 'https://quickchart.io/chart?width='+ width +'&height=' + changeheight + '&c={';
 
   for (var i = 1; i < splitted.length; i++) {
     finalUrl += "%27" + splitted[i];
@@ -120,8 +124,8 @@ function generateYearGraph(history, username, year) {
 
   var months = Object.keys(yearStats.months);
   labels = getMonthsStrings(months[months.length - 1]);
-  for (var i = 1; i < Number(months[months.length-1])+1; i++) {
-    if(yearStats.months[i]) {
+  for (var i = 1; i < Number(months[months.length - 1]) + 1; i++) {
+    if (yearStats.months[i]) {
       data.push(yearStats.months[i]);
     } else {
       data.push(0);
@@ -162,18 +166,19 @@ function generateYearGraph(history, username, year) {
   return chartUrl(chart);
 }
 
-function generateHoursGraph(dates, username){
+function generateHoursGraph(dates, username) {
   var label = username;
   var dates = dates;
   var data = [];
 
-  if(dates.length) {
+  if (dates.length) {
     for (i = 0; i < dates.length; i++) {
       var logDate = new Date(dates[i]);
       var minutes = logDate.getMinutes() / 60;
-      var time = logDate.getHours() + minutes;
-      data.push({x: i+1, y:time})
-    } 
+      var time = (logDate.getHours()+1) + minutes;
+      time = Math.floor(time * 10) / 10;
+      data.push({ x: i + 1, y: time })
+    }
   }
 
   var chart = {
@@ -183,15 +188,69 @@ function generateHoursGraph(dates, username){
         label: label,
         data: data
       }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            max: 24,
+            min: 0,
+            stepSize: 0.1
+          }
+        }]
+      }
     }
   };
 
-  return chartUrl(chart);
+  return chartUrl(chart, 30);
+
+}
+
+function generateHoursBarGraph(hours, username) {
+  var label = "Las 24 horas de " + username;
+  var hoursLog = hours;
+  var data = [];
+
+  var chart = {
+    type: "bar",
+    data: {
+      labels: ["0h", "1h", "2h", "3h", "4h", "5h", "6h", "7h", "8h", "9h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"],
+      datasets: [
+        {
+          label: label,
+          data: hoursLog,
+          fill: false,
+          backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)", "rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)", "rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)", "rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)"],
+          borderColor: ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)", "rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)", "rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)", "rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)"],
+          borderWidth: 1
+        }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      },
+      plugins: {
+        datalabels: {
+          display: true,
+          font: {
+            style: 'bold',
+          },
+        },
+      },
+    }
+  };
+
+  return chartUrl(chart,3,800);
 
 }
 
 module.exports = {
   generateYearGraph,
   getGroupGraph2,
-  generateHoursGraph
+  generateHoursGraph,
+  generateHoursBarGraph
 };
