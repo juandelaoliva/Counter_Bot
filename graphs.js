@@ -175,7 +175,7 @@ function generateHoursGraph(dates, username) {
     for (i = 0; i < dates.length; i++) {
       var logDate = new Date(dates[i]);
       var minutes = logDate.getMinutes() / 60;
-      var time = (logDate.getHours()+1) + minutes;
+      var time = (logDate.getHours()) + minutes;
       time = Math.floor(time * 10) / 10;
       data.push({ x: i + 1, y: time })
     }
