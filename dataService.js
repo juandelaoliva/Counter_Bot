@@ -1,4 +1,4 @@
-
+const config = require('./config');
 //firebase
 const firebaseConfig = require('./firebaseConfig');
 const firebase = require('firebase');
@@ -374,7 +374,60 @@ function getHoursTop3(hours) {
     return top3;
 }
 
+function assertUserLocation(id) {
+    if (users[id]) {
+        if (users[id].locations[1]) {
+            return true;
+        }
+    } else {
+        var locations = { locations: { enabled: true } };
+        users[id] = locations;
+        saveUsers();
+    }
+}
 
+function saveLocation(lat, long, id) {
+    assertUserLocation(id);
+    setTimeout(() => {
+        var location = { latitude: lat, longitude: long };
+        let locations = Object.values(users[id].locations);
+        locations.push(location);
+        users[id].locations = locations;
+        saveUsers();
+        console.log(id + ": added a new location -> { lat:" + lat + " , long:" + long + " }");
+    }, 50);
+}
+
+function getLocations(id) {
+    assertUserLocation(id);
+    var locations = Object.values(users[id].locations);
+    return locations;
+}
+
+function createMap(locations) {
+    if (locations.length > 1) {
+        var url = "http://maps.googleapis.com/maps/api/staticmap?&size=600x600&style=visibility:on&style=feature:water%7Celement:geometry%7Cvisibility:on&style=feature:landscape%7Celement:geometry%7Cvisibility:on";
+        for (var i = 1; i < locations.length; i++) {
+            if (locations[i]) {
+                url += "&markers=icon:https://i.ibb.co/T2y11tH/336345-shit-emoji-png.png%7C" + locations[i].latitude + "," + locations[i].longitude;
+            }
+        }
+        url += "&key=" + config.staticMapApiKey;
+        return url;
+    }
+}
+
+function createBingMap(locations) {
+    if (locations.length > 1) {
+        var url = "https://www.bing.com/maps?lvl=12&sp=";
+        for (var i = 1; i < locations.length; i++) {
+            if (locations[i]) {
+                url += "point." + locations[i].latitude + "_" + locations[i].longitude + "_Caca~";
+            }
+        }
+        return url;
+    }
+}
 
 module.exports = {
     loadUsers,
@@ -390,5 +443,10 @@ module.exports = {
     getHistory,
     getGroupHistories,
     getHoursLog,
-    getHoursTop3
+    getHoursTop3,
+    assertUserLocation,
+    saveLocation,
+    createMap,
+    createBingMap,
+    getLocations
 };
