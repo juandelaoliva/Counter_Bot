@@ -32,11 +32,13 @@ const helpMsg = `💩Comandos de referencia:💩
 /Graph - Muesta un gráfico anual
 (Si estás en un grupo y quieres crear tu propio gráfico escribe el comando seguido de un espacio y la palabra 'propio')
 /Hours - Muestra un estudio sobre las horas a las que sueles ir al baño
+/Mapa - Muestra un mapa de las localizaciones enviadas (las ubicaciones se tienen que enviar por el chat privado con el bot y no en un grupo)
 
 /menuprincipal - Muestra los botones principales
 /quitacaca - Decrementa una unidad de caca
 /modificar - Cambia tus cacas a lo grande
 /latecaca - Suma una caca que se te había olvidado
+/mapadinamico - Mapa dinámico para ver en versión escritorio
 /ayuda - Pulsa aquí si tienes dudas
 /compartir - Haz que el Cagómetro vea mundo
 /donar - Para seguir mejorando este proyecto
@@ -88,7 +90,8 @@ const menuPrincipal = Markup
     .keyboard([
         ['/SumaCaca'],
         ['/Ranking', '/Stats'],
-        ['/Graph','/Hours']// Row3 with 3 buttons
+        ['/Graph', '/Hours'],// Row3 with 3 buttons
+        ['/Mapa']
     ])
     .oneTime()
     .resize()
@@ -97,7 +100,7 @@ const menuPrincipal = Markup
 
 bot.command('menuprincipal', ctx => ctx.reply('💩 Menú Principal 💩', menuPrincipal))
 bot.command('donar', ctx => ctx.reply('💩💰 Puedes donar al proyecto mediante este link de Paypal 💩\n\n   paypal.me/juandelaoliva'))
-bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot mediante el siguiente link 💩\n\n   telegram.me/cgmtr_bot'))
+bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot mediante el siguiente link 💩\n\n   telegram.me/cagometro_bot'))
 
 
 //---------------------------------------------RESPUESTAS AUTOMÁTICAS---------------------------------------------------------------
@@ -129,7 +132,6 @@ bot.command('modificar', (ctx) => {
             m.callbackButton('+100', 100)
         ])))
 })
-
 
 bot.on('callback_query', (ctx) => {
     try {
@@ -264,6 +266,9 @@ bot.command(('SumaCaca'), ctx => {
                     ctx.replyWithAnimation(gifs.getRandomGif());
                     logOutMsg(ctx, 0)
                 }, 50);
+                setTimeout(() => {
+                    ctx.reply("💩 Con gente como " + counterId + " normal que haya falta de abastecimiento de 🧻 💩");
+                }, 1000);
             } else if (val == 100) {
                 var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
                 setTimeout(() => {
@@ -301,7 +306,7 @@ bot.command(('latecaca'), ctx => {
             words.shift(); //borramos la primera palabra  (que es la llamada al comando)
 
             if (!words.length || words.length > 2) {
-                var explic = "💩 Este es un comándo con parámetros 💩\n\n";
+                var explic = "💩 Este es un comando con parámetros 💩\n\n";
                 explic += "Tienes dos maneras de usarlo:\n\n";
                 explic += "1.- Añadiendo solo la hora en formato HH:MM\n Ej.: /latecaca 13:00\n\n";
                 explic += "2.- Añadiendo la hora y la fecha en formato HH:MM dd/mm/yyyy\n Ej.: /latecaca 13:00 20/03/2020\n";
@@ -527,7 +532,7 @@ bot.command(('Stats'), ctx => {
 
                 if (mediaThisMonth.toFixed(4) > 2.5 || mediaThisYear.toFixed(4) > 2.5) {
                     setTimeout(() => {
-                        ctx.reply("💩 Con gente como "+newData+" normal que haya falta de abastecimiento de 🧻 \n Una media de más de 2.5 es mucha tela eh 💩");
+                        ctx.reply("💩 Con gente como " + newData + " normal que haya falta de abastecimiento de 🧻 \n Una media de más de 2.5 es mucha tela eh 💩");
                     }, 90);  //delay para enviar este mensaje como segundo mensaje
                 }
             } else {
@@ -593,7 +598,6 @@ function calculaNumeroDia() {
 }
 
 bot.startPolling();
-
 
 
 bot.command(('Graph'), ctx => {
@@ -695,10 +699,66 @@ bot.command(('Hours'), ctx => {
     }
 });
 
+bot.command('Mapa', (ctx) => {
+    var username;
+    var private;
+    if (ctx.message.chat.type == 'private') {
+        username = ctx.chat.username;
+        private = true;
+    } else if (ctx.message.chat.type == 'group') {
+        username = ctx.from.username;
+        private = false;
+    }
 
+    var locations = dataService.getLocations(username);
+    var url = dataService.createMap(locations);
+    if (url) {
+        ctx.reply("💩 Mapa de la caca de " + username + " 💩")
+        setTimeout(() => {
+            ctx.replyWithPhoto(url);
+        }, 50);
+    } else {
+        if (private) {
+            ctx.reply("💩 Envíame antes alguna localización 💩")
+        } else {
+            ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
+        }
+    }
+})
 
+bot.command('mapadinamico', (ctx) => {
+    var username;
+    var private;
+    if (ctx.message.chat.type == 'private') {
+        username = ctx.chat.username;
+        private = true;
+    } else if (ctx.message.chat.type == 'group') {
+        username = ctx.from.username;
+        private = false;
+    }
 
+    var locations = dataService.getLocations(username);
+    var url = dataService.createBingMap(locations);
+    if (url) {
+        ctx.reply("💩Para ver este mapa tendrás que pedir la verisón escritorio o verlo desde el ordenador (no está disponible en versión móvil) 💩\n");
+        setTimeout(() => {
+            ctx.reply(url);
+        }, 50);
+    } else {
+        if (private) {
+            ctx.reply("💩 Envíame antes alguna localización 💩")
+        } else {
+            ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
+        }
+    }
+})
 
+bot.on('location', (ctx) => {
+    if (ctx.chat.type == 'private') {
+        dataService.saveLocation(ctx.message.location.latitude, ctx.message.location.longitude, ctx.message.chat.username);
+        return ctx.reply('💩 Ubicación añadida a tu mapa de la caca 💩\n 💩 Por un mundo con caca 💩')
+    }
+})
 
 module.exports = {
 
