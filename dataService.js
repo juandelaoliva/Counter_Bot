@@ -323,7 +323,7 @@ function getHoursLog(dates, uid) {
     if (dates.length) {
         if (specialgroup) {
             for (i = 0; i < dates.length; i++) {
-                if (dates[i] >= 1704667533) { // comprobamos que el momento sea tras el establecimiento
+                if (dates[i] >= 1704017156) { // comprobamos que el momento sea tras el establecimiento
                     var logDate = new Date(dates[i]);
                     var hour = logDate.getHours();
                     hours[hour]++;
