@@ -226,7 +226,7 @@ function decrementHistory(uid, id, date) {
 
 function createStats() {
     var date = new Date();
-    // date = date.setHours(date.getHours());
+    date = date.setHours(date.getHours()+1);
     date = new Date(date);
     return date;
 }
