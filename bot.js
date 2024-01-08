@@ -93,7 +93,7 @@ const menuPrincipal = Markup
         ['/Graph', '/Hours'],// Row3 with 3 buttons
         ['/Mapa']
     ])
-    .oneTime()
+    //.oneTime()
     .resize()
     .extra()
 
