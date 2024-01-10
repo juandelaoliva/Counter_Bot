@@ -47,12 +47,12 @@ function registerUser(msg) {
 }
 
 function getUser(uid) {
-    if (users[uid]){
+    if (users[uid]) {
         return users[uid];
-    }else {
+    } else {
         console.log('error because the users does not exist')
     }
-    
+
 }
 
 function getUserList() {
@@ -231,7 +231,7 @@ function decrementHistory(uid, id, date) {
 
 function createStats() {
     var date = new Date();
-    date = date.setHours(date.getHours()+1);
+    date = date.setHours(date.getHours() + 1);
     date = new Date(date);
     return date;
 }
@@ -292,10 +292,11 @@ function generateHistory(uid, id, stats) {
 }
 
 function getAllCounters(uid) {
-    if (users[uid]){
-        
-    return users[uid].counter;}
-    else {console.log('thissssss--> error')}
+    if (users[uid]) {
+
+        return users[uid].counter;
+    }
+    else { console.log('thissssss--> error') }
 }
 
 function getHistory(uid, id) {
@@ -307,20 +308,41 @@ function getHistory(uid, id) {
 }
 
 function getGroupHistories(uid) {
-    if (users[uid].data.chat.type == "group") {
-        var histories = [users[uid].data.chat.title];
-        for (var i = 0; i < Object.keys(users[uid].stats).length; i++) {
-            var name = Object.keys(users[uid].stats)[i];
-            var hist = users[uid].stats[name].history;
+    // Primero, verifica si uid es válido y si users[uid] existe
+    if (!uid || !users[uid]) {
+        console.log("UID no proporcionado o usuario no encontrado");
+        return null; // O maneja el error como prefieras
+    }
 
-            var histLog = { [name]: hist };
-            histories.push(histLog);
+    // Luego, verifica si las propiedades necesarias existen
+    if (users[uid].data && users[uid].data.chat && users[uid].data.chat.type === "group") {
+        var histories = [users[uid].data.chat.title];
+
+        // Verifica si stats y stats[name] existen antes de acceder a history
+        if (users[uid].stats) {
+            var statsKeys = Object.keys(users[uid].stats);
+            for (var i = 0; i < statsKeys.length; i++) {
+                var name = statsKeys[i];
+                if (users[uid].stats[name] && users[uid].stats[name].history) {
+                    var hist = users[uid].stats[name].history;
+                    var histLog = { [name]: hist };
+                    histories.push(histLog);
+                } else {
+                    console.log("Historial no encontrado para:", name);
+                    // Manejar el caso de no encontrar el historial
+                }
+            }
+        } else {
+            console.log("No se encontraron estadísticas para el usuario:", uid);
         }
+
         return histories;
     } else {
-        console.log(-1);
+        console.log("El usuario no pertenece a un grupo o falta información de chat");
+        return null; // O maneja este caso como prefieras
     }
 }
+
 
 // Hay que comprobar si el chat es el -353783471 y quitar los registros del día 21 y 22 de Enero que fue cuando se estableció el cagómetro
 // Para comprobar que es tras esas fechas veremos que la fecha en milisegundos sea posterior a 1579730400000
