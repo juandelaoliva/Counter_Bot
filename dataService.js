@@ -292,7 +292,10 @@ function generateHistory(uid, id, stats) {
 }
 
 function getAllCounters(uid) {
-    return users[uid].counter;
+    if (users[uid]){
+        
+    return users[uid].counter;}
+    else {console.log('thissssss--> error')}
 }
 
 function getHistory(uid, id) {
