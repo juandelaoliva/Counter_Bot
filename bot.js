@@ -105,15 +105,15 @@ const menuPrincipal = Markup
 
 //---------------------------------------------RESPUESTAS AUTOMÁTICAS---------------------------------------------------------------
 
-bot.hears(/caga/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
-bot.hears(/cago/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
-bot.hears(/mierda/i, (ctx) => ctx.reply("💩 mierda? vamos allá! 💩"));
-bot.hears(/peste/i, (ctx) => ctx.reply("💩 jejeje ha dicho peste 💩"));
-bot.hears(/^Camu$/, (ctx) => ctx.reply("💩 Camuñass métete a digestivo, que ya te tengo todo el trabajo hecho puto gafas 💩"));
-bot.hears(/Camuña/i, (ctx) => ctx.reply("💩 Camuñass cuando te despistes te limpiaré el ojete con papel celo 💩"));
-bot.hears(/(^caca)|(\Wcaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
-bot.hears(/(^Caca)|(\WCaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
-bot.hears('gif', (ctx) => ctx.replyWithAnimation(gifs.getRandomGif()));
+// bot.hears(/caga/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
+// bot.hears(/cago/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
+// bot.hears(/mierda/i, (ctx) => ctx.reply("💩 mierda? vamos allá! 💩"));
+// bot.hears(/peste/i, (ctx) => ctx.reply("💩 jejeje ha dicho peste 💩"));
+// bot.hears(/^Camu$/, (ctx) => ctx.reply("💩 Camuñass métete a digestivo, que ya te tengo todo el trabajo hecho puto gafas 💩"));
+// bot.hears(/Camuña/i, (ctx) => ctx.reply("💩 Camuñass cuando te despistes te limpiaré el ojete con papel celo 💩"));
+// bot.hears(/(^caca)|(\Wcaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
+// bot.hears(/(^Caca)|(\WCaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
+// bot.hears('gif', (ctx) => ctx.replyWithAnimation(gifs.getRandomGif()));
 
 
 
