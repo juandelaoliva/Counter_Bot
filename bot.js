@@ -98,9 +98,9 @@ const menuPrincipal = Markup
     .extra()
 
 
-bot.command('menuprincipal', ctx => ctx.reply('💩 Menú Principal 💩', menuPrincipal))
-bot.command('donar', ctx => ctx.reply('💩💰 Puedes donar al proyecto mediante este link de Paypal 💩\n\n   paypal.me/juandelaoliva'))
-bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot mediante el siguiente link 💩\n\n   telegram.me/cagometro_bot'))
+// bot.command('menuprincipal', ctx => ctx.reply('💩 Menú Principal 💩', menuPrincipal))
+// bot.command('donar', ctx => ctx.reply('💩💰 Puedes donar al proyecto mediante este link de Paypal 💩\n\n   paypal.me/juandelaoliva'))
+// bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot mediante el siguiente link 💩\n\n   telegram.me/cagometro_bot'))
 
 
 //---------------------------------------------RESPUESTAS AUTOMÁTICAS---------------------------------------------------------------
@@ -122,15 +122,15 @@ bot.hears('gif', (ctx) => ctx.replyWithAnimation(gifs.getRandomGif()));
 //---------------------------------------------COMANDOS---------------------------------------------------------------
 
 bot.command('modificar', (ctx) => {
-    return ctx.reply('🔧 💩 Modifica tu número de cacas a lo grande! 💩', Extra.HTML().markup((m) =>
-        m.inlineKeyboard([
-            m.callbackButton('-100', -100),
-            m.callbackButton('-10', -10),
-            m.callbackButton('-5', -5),
-            m.callbackButton('+5', 5),
-            m.callbackButton('+10', 10),
-            m.callbackButton('+100', 100)
-        ])))
+    // return ctx.reply('🔧 💩 Modifica tu número de cacas a lo grande! 💩', Extra.HTML().markup((m) =>
+    //     m.inlineKeyboard([
+    //         m.callbackButton('-100', -100),
+    //         m.callbackButton('-10', -10),
+    //         m.callbackButton('-5', -5),
+    //         m.callbackButton('+5', 5),
+    //         m.callbackButton('+10', 10),
+    //         m.callbackButton('+100', 100)
+    //     ])))
 })
 
 bot.on('callback_query', (ctx) => {
@@ -197,13 +197,13 @@ bot.command('ayuda', ctx => {
 bot.command('about', ctx => {
     logMsg(ctx);
     //logOutMsg(ctx, aboutMsg);
-    ctx.reply(aboutMsg);
+    // ctx.reply(aboutMsg);
 });
 
 
 bot.command(('Ranking'), ctx => {
     logMsg(ctx);
-    ctx.reply('bot under maintentnance')
+    // ctx.reply('bot under maintentnance')
     // logMsg(ctx);
     // // Cogemos todos los contadores del chat
     // counters = dataService.getAllCounters(ctx.chat.id);
@@ -295,95 +295,95 @@ bot.command(('SumaCaca'), ctx => {
 
 bot.command(('latecaca'), ctx => {
     logMsg(ctx);
-    try {
-        var from = userString(ctx);
-        // Comprobamos si el mensaje viene de un grupo o de un chat privado
-        var counterId = JSON.parse(from).username;
-        if (counterId == null) {
-            counterId = (JSON.parse(from).from.username);
-        }
-        if (counterId == null) {
-            throw TypeError;
-        } else {
-            var words = ctx.message.text.split(' ');
-            words.shift(); //borramos la primera palabra  (que es la llamada al comando)
+    // try {
+    //     var from = userString(ctx);
+    //     // Comprobamos si el mensaje viene de un grupo o de un chat privado
+    //     var counterId = JSON.parse(from).username;
+    //     if (counterId == null) {
+    //         counterId = (JSON.parse(from).from.username);
+    //     }
+    //     if (counterId == null) {
+    //         throw TypeError;
+    //     } else {
+    //         var words = ctx.message.text.split(' ');
+    //         words.shift(); //borramos la primera palabra  (que es la llamada al comando)
 
-            if (!words.length || words.length > 2) {
-                var explic = "💩 Este es un comando con parámetros 💩\n\n";
-                explic += "Tienes dos maneras de usarlo:\n\n";
-                explic += "1.- Añadiendo solo la hora en formato HH:MM\n Ej.: /latecaca 13:00\n\n";
-                explic += "2.- Añadiendo la hora y la fecha en formato HH:MM dd/mm/yyyy\n Ej.: /latecaca 13:00 20/03/2020\n";
-                ctx.reply(explic);
-            } else if (words.length == 1 && !(regexHours.test(words[0]))) {
-                ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM 💩");
-            } else if (words.length == 2 && !(regexHours.test(words[0]) && regexDate.test(words[1]))) {
-                ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM dd/mm/yyyy 💩");
-            } else {
+    //         if (!words.length || words.length > 2) {
+    //             var explic = "💩 Este es un comando con parámetros 💩\n\n";
+    //             explic += "Tienes dos maneras de usarlo:\n\n";
+    //             explic += "1.- Añadiendo solo la hora en formato HH:MM\n Ej.: /latecaca 13:00\n\n";
+    //             explic += "2.- Añadiendo la hora y la fecha en formato HH:MM dd/mm/yyyy\n Ej.: /latecaca 13:00 20/03/2020\n";
+    //             ctx.reply(explic);
+    //         } else if (words.length == 1 && !(regexHours.test(words[0]))) {
+    //             ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM 💩");
+    //         } else if (words.length == 2 && !(regexHours.test(words[0]) && regexDate.test(words[1]))) {
+    //             ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM dd/mm/yyyy 💩");
+    //         } else {
 
-                //-------------------------------------------------------
-                var val = dataService.getCounter(ctx.chat.id, counterId);
-                val++;
-                dataService.setCounterCustom(ctx.chat.id, counterId, val, words);
+    //             //-------------------------------------------------------
+    //             var val = dataService.getCounter(ctx.chat.id, counterId);
+    //             val++;
+    //             dataService.setCounterCustom(ctx.chat.id, counterId, val, words);
 
-                var printCounterId = counterId ? "[" + counterId + "] " : "";
-                if (val != 0 && val % 50 == 0 && val != 100) {
-                    var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
-                    setTimeout(() => {
-                        ctx.replyWithAnimation(gifs.getRandomGif());
-                        logOutMsg(ctx, 0)
-                    }, 50);
-                } else if (val == 100) {
-                    var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
-                    setTimeout(() => {
-                        ctx.replyWithAnimation(gifs.getRandomGif());
-                        logOutMsg(ctx, 0)
-                    }, 50);
-                } else {
-                    var res = printCounterId + val + " 💩";
-                }
+    //             var printCounterId = counterId ? "[" + counterId + "] " : "";
+    //             if (val != 0 && val % 50 == 0 && val != 100) {
+    //                 var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
+    //                 setTimeout(() => {
+    //                     ctx.replyWithAnimation(gifs.getRandomGif());
+    //                     logOutMsg(ctx, 0)
+    //                 }, 50);
+    //             } else if (val == 100) {
+    //                 var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
+    //                 setTimeout(() => {
+    //                     ctx.replyWithAnimation(gifs.getRandomGif());
+    //                     logOutMsg(ctx, 0)
+    //                 }, 50);
+    //             } else {
+    //                 var res = printCounterId + val + " 💩";
+    //             }
 
-                logOutMsg(ctx, res);
-                ctx.reply(res);
-            }
-        }
+    //             logOutMsg(ctx, res);
+    //             ctx.reply(res);
+    //         }
+    //     }
 
 
-    } catch (e) {
-        if (e instanceof TypeError) {
-            ctx.reply(nameErrMsg);
-        }
-    }
+    // } catch (e) {
+    //     if (e instanceof TypeError) {
+    //         ctx.reply(nameErrMsg);
+    //     }
+    // }
 });
 
 bot.command(('quitacaca'), ctx => {
     logMsg(ctx);
-    try {
-        var from = userString(ctx);
-        var counterId = JSON.parse(from).username;
-        if (counterId == null) {
-            counterId = (JSON.parse(from).from.username);
-        }
-        if (counterId == null) {
-            throw TypeError;
-        }
+    // try {
+    //     var from = userString(ctx);
+    //     var counterId = JSON.parse(from).username;
+    //     if (counterId == null) {
+    //         counterId = (JSON.parse(from).from.username);
+    //     }
+    //     if (counterId == null) {
+    //         throw TypeError;
+    //     }
 
-        var val = dataService.getCounter(ctx.chat.id, counterId);
-        val--;
-        if (val < 0) {
-            val = 0;
-        }
-        dataService.setCounter(ctx.chat.id, counterId, val);
+    //     var val = dataService.getCounter(ctx.chat.id, counterId);
+    //     val--;
+    //     if (val < 0) {
+    //         val = 0;
+    //     }
+    //     dataService.setCounter(ctx.chat.id, counterId, val);
 
-        var printCounterId = counterId ? "[" + counterId + "] " : "";
+    //     var printCounterId = counterId ? "[" + counterId + "] " : "";
 
-        val = printCounterId + val + " 💩";
-        logOutMsg(ctx, val);
-        ctx.reply(val);
-    } catch (e) {
-        if (e instanceof TypeError) {
-            ctx.reply(nameErrMsg);
-        }
-    }
+    //     val = printCounterId + val + " 💩";
+    //     logOutMsg(ctx, val);
+    //     ctx.reply(val);
+    // } catch (e) {
+    //     if (e instanceof TypeError) {
+    //         ctx.reply(nameErrMsg);
+    //     }
+    // }
 });
 
 // este comando solo está disponible para el dueño del bot
@@ -611,7 +611,7 @@ bot.startPolling();
 
 bot.command(('Graph'), ctx => {
     logMsg(ctx);
-    ctx.reply('bot under maintentnance')
+    // ctx.reply('bot under maintentnance')
 
     // try {
     //     var from = userString(ctx);
@@ -659,7 +659,7 @@ bot.command(('Graph'), ctx => {
 
 bot.command(('Hours'), ctx => {
     logMsg(ctx);
-    ctx.reply('bot under maintentnance')
+    // ctx.reply('bot under maintentnance')
 
     // try {
     //     var from = userString(ctx);
@@ -719,7 +719,7 @@ bot.command(('Hours'), ctx => {
 
 bot.command('Mapa', (ctx) => {
     logMsg(ctx);
-    ctx.reply('bot under maintentnance')
+    // ctx.reply('bot under maintentnance')
 
     // var username;
     // var private;
