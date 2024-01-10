@@ -203,6 +203,7 @@ bot.command('about', ctx => {
 
 
 bot.command(('Ranking'), ctx => {
+    logMsg(ctx);
     ctx.reply('bot under maintentnance')
     // logMsg(ctx);
     // // Cogemos todos los contadores del chat
@@ -246,6 +247,7 @@ bot.command(('Ranking'), ctx => {
 
 
 bot.command(('SumaCaca'), ctx => {
+    logMsg(ctx);
     try {
         var from = userString(ctx);
         // Comprobamos si el mensaje viene de un grupo o de un chat privado
@@ -293,6 +295,7 @@ bot.command(('SumaCaca'), ctx => {
 });
 
 bot.command(('latecaca'), ctx => {
+    logMsg(ctx);
     try {
         var from = userString(ctx);
         // Comprobamos si el mensaje viene de un grupo o de un chat privado
@@ -354,6 +357,7 @@ bot.command(('latecaca'), ctx => {
 });
 
 bot.command(('quitacaca'), ctx => {
+    logMsg(ctx);
     try {
         var from = userString(ctx);
         var counterId = JSON.parse(from).username;
@@ -385,6 +389,7 @@ bot.command(('quitacaca'), ctx => {
 
 // este comando solo está disponible para el dueño del bot
 bot.command('broadcast', ctx => {
+    logMsg(ctx);
     if (ctx.from.id == config.adminChatId) {
         var words = ctx.message.text.split(' ');
         words.shift(); //borramos la primera palabra  (que es "/broadcast")
@@ -405,6 +410,7 @@ bot.command('broadcast', ctx => {
 
 
 bot.command(('Stats'), ctx => {
+    logMsg(ctx);
     try {
         var from = userString(ctx);
 
@@ -605,6 +611,7 @@ bot.startPolling();
 
 
 bot.command(('Graph'), ctx => {
+    logMsg(ctx);
     ctx.reply('bot under maintentnance')
 
     // try {
@@ -652,6 +659,7 @@ bot.command(('Graph'), ctx => {
 
 
 bot.command(('Hours'), ctx => {
+    logMsg(ctx);
     ctx.reply('bot under maintentnance')
 
     // try {
@@ -711,6 +719,7 @@ bot.command(('Hours'), ctx => {
 });
 
 bot.command('Mapa', (ctx) => {
+    logMsg(ctx);
     ctx.reply('bot under maintentnance')
 
     // var username;
@@ -740,6 +749,7 @@ bot.command('Mapa', (ctx) => {
 })
 
 bot.command('mapadinamico', (ctx) => {
+    logMsg(ctx);
     var username;
     var private;
     if (ctx.message.chat.type == 'private') {
