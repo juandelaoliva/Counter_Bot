@@ -47,7 +47,12 @@ function registerUser(msg) {
 }
 
 function getUser(uid) {
-    return users[uid];
+    if (users[uid]){
+        return users[uid];
+    }else {
+        console.log('error because the users does not exist)
+    }
+    
 }
 
 function getUserList() {
