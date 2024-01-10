@@ -414,6 +414,9 @@ bot.command(('Stats'), ctx => {
         if (newData == null) {
             throw TypeError;
         } else {
+            if (dataService.getStats(ctx.chat.id, newData) == null) {
+                throw TypeError;
+            } else {
 
             stats = dataService.getStats(ctx.chat.id, newData);
 
@@ -538,7 +541,7 @@ bot.command(('Stats'), ctx => {
             } else {
                 ctx.reply('Ninguna estadística disponible');
             }
-        }
+        }}
     }
     catch (e) {
         if (e instanceof TypeError) {
@@ -656,6 +659,9 @@ bot.command(('Hours'), ctx => {
         if (newData == null) {
             throw TypeError;
         } else {
+            if (dataService.getStats(ctx.chat.id, newData) == null) {
+                throw TypeError;
+            } else {
             dates = dataService.getStats(ctx.chat.id, newData);
 
             var hours = dataService.getHoursLog(dates, ctx.chat.id);
@@ -688,7 +694,7 @@ bot.command(('Hours'), ctx => {
                 graph = graphs.generateHoursGraph(dates, newData);
                 ctx.replyWithPhoto(graph);
             }, 4000);
-        }
+        }}
         logOutMsg(ctx, newData + ': Graph generated');
     }
     catch (e) {

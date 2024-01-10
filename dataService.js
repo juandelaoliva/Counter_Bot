@@ -242,10 +242,23 @@ function getCounter(uid, id) {
 }
 
 function getStats(uid, id) {
-    assertCounter(uid, id);
-    var dates = Object.values(users[uid].stats[id].dates);
-    return dates;
+    // Comprobar si uid y id son válidos
+    if (!uid || !id) {
+        console.log("UID o ID no proporcionado");
+        return null; // O manejar el error como prefieras
+    }
+
+    // Verificar si el usuario y las propiedades necesarias existen
+    if (users[uid] && users[uid].stats && users[uid].stats[id] && users[uid].stats[id].dates) {
+        assertCounter(uid, id);
+        var dates = Object.values(users[uid].stats[id].dates);
+        return dates;
+    } else {
+        console.log("Datos no disponibles para el usuario o ID proporcionado");
+        return null; // O manejar este caso como prefieras
+    }
 }
+
 
 function generateHistory(uid, id, stats) {
     var history = {};
