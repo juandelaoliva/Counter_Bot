@@ -191,7 +191,6 @@ bot.command('stop', ctx => {
 
 bot.command('ayuda', ctx => {
     logMsg(ctx);
-    logOutMsg(ctx, helpMsg);
     ctx.reply(helpMsg);
 });
 
@@ -411,151 +410,151 @@ bot.command('broadcast', ctx => {
 
 bot.command(('Stats'), ctx => {
     logMsg(ctx);
-    try {
-        var from = userString(ctx);
+    // try {
+    //     var from = userString(ctx);
 
-        var newData = JSON.parse(from).username;
-        if (newData == null) {
-            newData = (JSON.parse(from).from.username);
-        }
-        if (newData == null) {
-            throw TypeError;
-        } else {
-            if (dataService.getStats(ctx.chat.id, newData) == null) {
-                throw TypeError;
-            } else {
+    //     var newData = JSON.parse(from).username;
+    //     if (newData == null) {
+    //         newData = (JSON.parse(from).from.username);
+    //     }
+    //     if (newData == null) {
+    //         throw TypeError;
+    //     } else {
+    //         if (dataService.getStats(ctx.chat.id, newData) == null) {
+    //             throw TypeError;
+    //         } else {
 
-            stats = dataService.getStats(ctx.chat.id, newData);
+    //         stats = dataService.getStats(ctx.chat.id, newData);
 
-            if (stats.length > 0) {
+    //         if (stats.length > 0) {
 
-                var today = new Date();
-                today = today.setHours(today.getHours() + 1);
-                today = new Date(today);
-
-
-                var thisDay = today.getDate();
-                var thisYear = today.getFullYear();
-                var lastYear = thisYear - 1;
-                var thisMonth = today.getMonth() + 1;
-
-                if (thisMonth == 1) {
-                    var lastMonth = 12;
-                } else {
-                    var lastMonth = thisMonth - 1;
-                }
+    //             var today = new Date();
+    //             today = today.setHours(today.getHours() + 1);
+    //             today = new Date(today);
 
 
-                var cacasToday = 0;
-                var cacasYesterday = 0;
+    //             var thisDay = today.getDate();
+    //             var thisYear = today.getFullYear();
+    //             var lastYear = thisYear - 1;
+    //             var thisMonth = today.getMonth() + 1;
 
-                var cacasThisMonth = 0;
-                var cacasLastMonth = 0;
-
-                var mediaThisMonth = 0;
-                var mediaLastMonth = 0;
-
-                var mediaThisYear = 0;
-                var mediaLastYear = 0;
-
-                var cacasThisYear = 0;
-                var cacasLastYear = 0;
+    //             if (thisMonth == 1) {
+    //                 var lastMonth = 12;
+    //             } else {
+    //                 var lastMonth = thisMonth - 1;
+    //             }
 
 
-                for (var i = 0; i < stats.length; i++) {
-                    var logDate = new Date(stats[i]);
+    //             var cacasToday = 0;
+    //             var cacasYesterday = 0;
 
-                    var logYear = logDate.getFullYear();
-                    var logMonth = logDate.getMonth() + 1;
-                    var logDay = logDate.getDate();
+    //             var cacasThisMonth = 0;
+    //             var cacasLastMonth = 0;
 
-                    if (logYear == thisYear) {
-                        cacasThisYear += 1;
-                    }
-                    if (logYear == lastYear) {
-                        cacasLastYear += 1;
-                    }
+    //             var mediaThisMonth = 0;
+    //             var mediaLastMonth = 0;
 
-                    if (logYear == thisYear && logMonth == thisMonth) {
-                        cacasThisMonth += 1;
-                    }
+    //             var mediaThisYear = 0;
+    //             var mediaLastYear = 0;
 
-                    if (logYear == thisYear && logMonth == lastMonth && lastMonth != 12) {
-                        cacasLastMonth += 1;
-                    }
-
-                    if (logYear == lastYear && logMonth == lastMonth && lastMonth == 12) {
-                        cacasLastMonth += 1;
-                    }
-
-                    if (logYear == thisYear && logMonth == thisMonth && logDay == thisDay) {
-                        cacasToday += 1;
-                    }
-
-                }
+    //             var cacasThisYear = 0;
+    //             var cacasLastYear = 0;
 
 
-                mediaThisYear = cacasThisYear / calculaNumeroDia();
+    //             for (var i = 0; i < stats.length; i++) {
+    //                 var logDate = new Date(stats[i]);
+
+    //                 var logYear = logDate.getFullYear();
+    //                 var logMonth = logDate.getMonth() + 1;
+    //                 var logDay = logDate.getDate();
+
+    //                 if (logYear == thisYear) {
+    //                     cacasThisYear += 1;
+    //                 }
+    //                 if (logYear == lastYear) {
+    //                     cacasLastYear += 1;
+    //                 }
+
+    //                 if (logYear == thisYear && logMonth == thisMonth) {
+    //                     cacasThisMonth += 1;
+    //                 }
+
+    //                 if (logYear == thisYear && logMonth == lastMonth && lastMonth != 12) {
+    //                     cacasLastMonth += 1;
+    //                 }
+
+    //                 if (logYear == lastYear && logMonth == lastMonth && lastMonth == 12) {
+    //                     cacasLastMonth += 1;
+    //                 }
+
+    //                 if (logYear == thisYear && logMonth == thisMonth && logDay == thisDay) {
+    //                     cacasToday += 1;
+    //                 }
+
+    //             }
+
+
+    //             mediaThisYear = cacasThisYear / calculaNumeroDia();
 
 
 
-                mediaThisMonth = cacasThisMonth / thisDay;
-                mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth, thisYear);
+    //             mediaThisMonth = cacasThisMonth / thisDay;
+    //             mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth, thisYear);
 
-                var diferenciaConMesPasado;
-                if (mediaLastMonth != 0) {
-                    diferenciaConMesPasado = ((mediaThisMonth / mediaLastMonth) * 100) - 100;
-                }
+    //             var diferenciaConMesPasado;
+    //             if (mediaLastMonth != 0) {
+    //                 diferenciaConMesPasado = ((mediaThisMonth / mediaLastMonth) * 100) - 100;
+    //             }
 
-                //Checking hours
-
-
-                var res = '💩 Estadísticas de ' + newData + ' 💩\n';
-                res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
-                res += '- Hoy has cagado ' + cacasToday;
-                cacasToday == 1 ? res += ' vez.\n' : res += ' veces.\n';
-                res += '- Este mes has cagado ' + cacasThisMonth;
-                cacasThisMonth == 1 ? res += ' vez.\n' : res += ' veces.\n';
-                res += '- Este año has cagado ' + cacasThisYear;
-                cacasThisYear == 1 ? res += ' vez.\n\n' : res += ' veces.\n\n';
-                res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
-                res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
-
-                if (diferenciaConMesPasado) {
-                    res += ' que es un ' + Math.abs(diferenciaConMesPasado).toFixed(2) + '%';
-                    if (diferenciaConMesPasado >= 0) {
-                        res += ' más';
-                    } else if (diferenciaConMesPasado < 0) {
-                        res += ' menos';
-                    }
-                    res += ' que el mes pasado';
-                }
-
-                ctx.reply(res);
+    //             //Checking hours
 
 
-                if (newData == 'Javcamcor') {
-                    setTimeout(() => {
-                        ctx.reply("💩 Paletas, usa el bidé que con la cuarentena no queda papel!🧻🧻 💩");
-                    }, 90);  //delay para enviar este mensaje como segundo mensaje
-                }
+    //             var res = '💩 Estadísticas de ' + newData + ' 💩\n';
+    //             res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
+    //             res += '- Hoy has cagado ' + cacasToday;
+    //             cacasToday == 1 ? res += ' vez.\n' : res += ' veces.\n';
+    //             res += '- Este mes has cagado ' + cacasThisMonth;
+    //             cacasThisMonth == 1 ? res += ' vez.\n' : res += ' veces.\n';
+    //             res += '- Este año has cagado ' + cacasThisYear;
+    //             cacasThisYear == 1 ? res += ' vez.\n\n' : res += ' veces.\n\n';
+    //             res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
+    //             res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
 
-                if (mediaThisMonth.toFixed(4) > 2.5 || mediaThisYear.toFixed(4) > 2.5) {
-                    setTimeout(() => {
-                        ctx.reply("💩 Con gente como " + newData + " normal que haya falta de abastecimiento de 🧻 \n Una media de más de 2.5 es mucha tela eh 💩");
-                    }, 90);  //delay para enviar este mensaje como segundo mensaje
-                }
-            } else {
-                ctx.reply('Ninguna estadística disponible');
-            }
-        }}
-    }
-    catch (e) {
-        if (e instanceof TypeError) {
-            ctx.reply(nameErrMsg);
-            console.log(e);
-        }
-    }
+    //             if (diferenciaConMesPasado) {
+    //                 res += ' que es un ' + Math.abs(diferenciaConMesPasado).toFixed(2) + '%';
+    //                 if (diferenciaConMesPasado >= 0) {
+    //                     res += ' más';
+    //                 } else if (diferenciaConMesPasado < 0) {
+    //                     res += ' menos';
+    //                 }
+    //                 res += ' que el mes pasado';
+    //             }
+
+    //             ctx.reply(res);
+
+
+    //             if (newData == 'Javcamcor') {
+    //                 setTimeout(() => {
+    //                     ctx.reply("💩 Paletas, usa el bidé que con la cuarentena no queda papel!🧻🧻 💩");
+    //                 }, 90);  //delay para enviar este mensaje como segundo mensaje
+    //             }
+
+    //             if (mediaThisMonth.toFixed(4) > 2.5 || mediaThisYear.toFixed(4) > 2.5) {
+    //                 setTimeout(() => {
+    //                     ctx.reply("💩 Con gente como " + newData + " normal que haya falta de abastecimiento de 🧻 \n Una media de más de 2.5 es mucha tela eh 💩");
+    //                 }, 90);  //delay para enviar este mensaje como segundo mensaje
+    //             }
+    //         } else {
+    //             ctx.reply('Ninguna estadística disponible');
+    //         }
+    //     }}
+    // }
+    // catch (e) {
+    //     if (e instanceof TypeError) {
+    //         ctx.reply(nameErrMsg);
+    //         console.log(e);
+    //     }
+    // }
 });
 
 function calculaMediaMes(month, cacasMonth, thisYear) {
