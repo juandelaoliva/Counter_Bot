@@ -50,7 +50,7 @@ function getUser(uid) {
     if (users[uid]){
         return users[uid];
     }else {
-        console.log('error because the users does not exist)
+        console.log('error because the users does not exist')
     }
     
 }
