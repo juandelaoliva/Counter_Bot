@@ -203,42 +203,43 @@ bot.command('about', ctx => {
 
 
 bot.command(('Ranking'), ctx => {
-    logMsg(ctx);
-    // Cogemos todos los contadores del chat
-    counters = dataService.getAllCounters(ctx.chat.id);
-    if (counters == null) {
-        ctx.reply("🥇 💩 Nadie ha registrado ninguna caca todavía 💩")
-    } else {
-        // Inicio del mensaje de respuesta
-        msg = "🥇Ranking🥇 \n\n";
+    ctx.reply('bot under maintentnance')
+    // logMsg(ctx);
+    // // Cogemos todos los contadores del chat
+    // counters = dataService.getAllCounters(ctx.chat.id);
+    // if (counters == null) {
+    //     ctx.reply("🥇 💩 Nadie ha registrado ninguna caca todavía 💩")
+    // } else {
+    //     // Inicio del mensaje de respuesta
+    //     msg = "🥇Ranking🥇 \n\n";
 
-        // Guardamos los valores de cada contador
-        var values = [];
-        Object.keys(counters).forEach(counterId => {
-            values.push(counters[counterId]);
-        });
+    //     // Guardamos los valores de cada contador
+    //     var values = [];
+    //     Object.keys(counters).forEach(counterId => {
+    //         values.push(counters[counterId]);
+    //     });
 
-        // Ordenamos los valores y le damos la vuelta
-        sortedValues = values.sort(function (a, b) { return a - b });
-        sortedValues.reverse();
-        // borramos los valores repetidos ya que estarán agrupados
-        var uniqueSortedValues = _.uniq(sortedValues);
+    //     // Ordenamos los valores y le damos la vuelta
+    //     sortedValues = values.sort(function (a, b) { return a - b });
+    //     sortedValues.reverse();
+    //     // borramos los valores repetidos ya que estarán agrupados
+    //     var uniqueSortedValues = _.uniq(sortedValues);
 
-        // Le damos la vuelta (key/values) a los conntadores para poder buscar luego por orden        
-        var reversedCounters = _.invertBy(counters);
+    //     // Le damos la vuelta (key/values) a los conntadores para poder buscar luego por orden        
+    //     var reversedCounters = _.invertBy(counters);
 
-        // Por cada valor en orden buscamos en el JSON de los contadores a quién pertenece cada puntuación
-        for (i = 0; i < uniqueSortedValues.length; i++) {
-            if (uniqueSortedValues.length > 1 && i == 0) {
-                msg += ' 👑' + reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n\n";
+    //     // Por cada valor en orden buscamos en el JSON de los contadores a quién pertenece cada puntuación
+    //     for (i = 0; i < uniqueSortedValues.length; i++) {
+    //         if (uniqueSortedValues.length > 1 && i == 0) {
+    //             msg += ' 👑' + reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n\n";
 
-            } else {
-                msg += reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n";
-            }
-        }
-        logOutMsg(ctx, msg);
-        ctx.reply(msg);
-    }
+    //         } else {
+    //             msg += reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n";
+    //         }
+    //     }
+    //     logOutMsg(ctx, msg);
+    //     ctx.reply(msg);
+    // }
 });
 
 
@@ -604,132 +605,138 @@ bot.startPolling();
 
 
 bot.command(('Graph'), ctx => {
-    try {
-        var from = userString(ctx);
+    ctx.reply('bot under maintentnance')
 
-        var newData = JSON.parse(from).username;
-        if (newData == null) {
-            newData = (JSON.parse(from).from.username);
-        }
-        if (newData == null) {
-            throw TypeError;
-        } else {
-            var graph;
-            if (ctx.chat.type == 'group') {
+    // try {
+    //     var from = userString(ctx);
 
-                var words = ctx.message.text.split(' ');
-                words.shift(); //borramos la primera palabra  (que es la llamada al comando)
+    //     var newData = JSON.parse(from).username;
+    //     if (newData == null) {
+    //         newData = (JSON.parse(from).from.username);
+    //     }
+    //     if (newData == null) {
+    //         throw TypeError;
+    //     } else {
+    //         var graph;
+    //         if (ctx.chat.type == 'group') {
 
-                if (words[0] == 'propio') {
-                    history = dataService.getHistory(ctx.chat.id, newData);
-                    graph = graphs.generateYearGraph(history, newData);
-                    ctx.replyWithPhoto(graph);
-                } else {
-                    graph = graphs.getGroupGraph2(ctx.chat.id);
-                    ctx.replyWithPhoto(graph);
-                }
+    //             var words = ctx.message.text.split(' ');
+    //             words.shift(); //borramos la primera palabra  (que es la llamada al comando)
 
-            } else {
-                history = dataService.getHistory(ctx.chat.id, newData);
-                graph = graphs.generateYearGraph(history, newData);
-                ctx.replyWithPhoto(graph);
+    //             if (words[0] == 'propio') {
+    //                 history = dataService.getHistory(ctx.chat.id, newData);
+    //                 graph = graphs.generateYearGraph(history, newData);
+    //                 ctx.replyWithPhoto(graph);
+    //             } else {
+    //                 graph = graphs.getGroupGraph2(ctx.chat.id);
+    //                 ctx.replyWithPhoto(graph);
+    //             }
 
-            }
-        }
+    //         } else {
+    //             history = dataService.getHistory(ctx.chat.id, newData);
+    //             graph = graphs.generateYearGraph(history, newData);
+    //             ctx.replyWithPhoto(graph);
 
-        logOutMsg(ctx, newData + ': Graph generated');
-    }
-    catch (e) {
-        if (e instanceof TypeError) {
-            ctx.reply(ErrMsg);
-            console.log(e);
-        }
-    }
+    //         }
+    //     }
+
+    //     logOutMsg(ctx, newData + ': Graph generated');
+    // }
+    // catch (e) {
+    //     if (e instanceof TypeError) {
+    //         ctx.reply(ErrMsg);
+    //         console.log(e);
+    //     }
+    // }
 });
 
 
 bot.command(('Hours'), ctx => {
-    try {
-        var from = userString(ctx);
+    ctx.reply('bot under maintentnance')
 
-        var newData = JSON.parse(from).username;
-        if (newData == null) {
-            newData = (JSON.parse(from).from.username);
-        }
-        if (newData == null) {
-            throw TypeError;
-        } else {
-            if (dataService.getStats(ctx.chat.id, newData) == null) {
-                throw TypeError;
-            } else {
-            dates = dataService.getStats(ctx.chat.id, newData);
+    // try {
+    //     var from = userString(ctx);
 
-            var hours = dataService.getHoursLog(dates, ctx.chat.id);
+    //     var newData = JSON.parse(from).username;
+    //     if (newData == null) {
+    //         newData = (JSON.parse(from).from.username);
+    //     }
+    //     if (newData == null) {
+    //         throw TypeError;
+    //     } else {
+    //         if (dataService.getStats(ctx.chat.id, newData) == null) {
+    //             throw TypeError;
+    //         } else {
+    //         dates = dataService.getStats(ctx.chat.id, newData);
 
-            var top3 = dataService.getHoursTop3(hours);
-            var res = '💩Estudio de horas💩\n\n'
-            res += 'Tus horas más frecuentes son las siguientes:\n\n';
-            res += '- ' + top3.top3hours[0] + 'h es tu hora más frecuente con una cantidad de ' + top3.top3Amount[0] + '\n';
-            res += '- ' + top3.top3hours[1] + 'h es tu segunda hora más frecuente con una cantidad de ' + top3.top3Amount[1] + '\n';
-            res += '- ' + top3.top3hours[2] + 'h en tercer lugar con ' + top3.top3Amount[2] + '\n\n';
-            res += 'ℹ️ Puede haber varias horas con el mísmo número de cacas (consultar gráfico de barras) 💩\n';
-            if (ctx.chat.id == -353783471) {
-                res += "ℹ️ Al formar parte del grupo " + ctx.chat.title + ", no se han tenido en cuenta las cacas añadidas previas al 23 de Enero para el ranking de horas y el gráfico de barras. 💩";
-            }
+    //         var hours = dataService.getHoursLog(dates, ctx.chat.id);
 
-            setTimeout(() => {
-                ctx.reply(res);
-            }, 500);
+    //         var top3 = dataService.getHoursTop3(hours);
+    //         var res = '💩Estudio de horas💩\n\n'
+    //         res += 'Tus horas más frecuentes son las siguientes:\n\n';
+    //         res += '- ' + top3.top3hours[0] + 'h es tu hora más frecuente con una cantidad de ' + top3.top3Amount[0] + '\n';
+    //         res += '- ' + top3.top3hours[1] + 'h es tu segunda hora más frecuente con una cantidad de ' + top3.top3Amount[1] + '\n';
+    //         res += '- ' + top3.top3hours[2] + 'h en tercer lugar con ' + top3.top3Amount[2] + '\n\n';
+    //         res += 'ℹ️ Puede haber varias horas con el mísmo número de cacas (consultar gráfico de barras) 💩\n';
+    //         if (ctx.chat.id == -353783471) {
+    //             res += "ℹ️ Al formar parte del grupo " + ctx.chat.title + ", no se han tenido en cuenta las cacas añadidas previas al 23 de Enero para el ranking de horas y el gráfico de barras. 💩";
+    //         }
 
-            setTimeout(() => {
-                ctx.replyWithPhoto(graphs.generateHoursBarGraph(hours, newData));
-            }, 1000);
+    //         setTimeout(() => {
+    //             ctx.reply(res);
+    //         }, 500);
 
-            setTimeout(() => {
-                ctx.reply('💩A continuación se mostrará un gráfico de una nube de puntos que representan todas las cacas hechas hasta la fecha ordenadas según la hora 💩');
-            }, 3000);
+    //         setTimeout(() => {
+    //             ctx.replyWithPhoto(graphs.generateHoursBarGraph(hours, newData));
+    //         }, 1000);
 
-            setTimeout(() => {
-                var graph;
-                graph = graphs.generateHoursGraph(dates, newData);
-                ctx.replyWithPhoto(graph);
-            }, 4000);
-        }}
-        logOutMsg(ctx, newData + ': Graph generated');
-    }
-    catch (e) {
-        if (e instanceof TypeError) {
-            ctx.reply(ErrMsg);
-            console.log(e);
-        }
-    }
+    //         setTimeout(() => {
+    //             ctx.reply('💩A continuación se mostrará un gráfico de una nube de puntos que representan todas las cacas hechas hasta la fecha ordenadas según la hora 💩');
+    //         }, 3000);
+
+    //         setTimeout(() => {
+    //             var graph;
+    //             graph = graphs.generateHoursGraph(dates, newData);
+    //             ctx.replyWithPhoto(graph);
+    //         }, 4000);
+    //     }}
+    //     logOutMsg(ctx, newData + ': Graph generated');
+    // }
+    // catch (e) {
+    //     if (e instanceof TypeError) {
+    //         ctx.reply(ErrMsg);
+    //         console.log(e);
+    //     }
+    // }
 });
 
 bot.command('Mapa', (ctx) => {
-    var username;
-    var private;
-    if (ctx.message.chat.type == 'private') {
-        username = ctx.chat.username;
-        private = true;
-    } else if (ctx.message.chat.type == 'group') {
-        username = ctx.from.username;
-        private = false;
-    }
+    ctx.reply('bot under maintentnance')
 
-    var locations = dataService.getLocations(username);
-    var url = dataService.createMap(locations);
-    if (url) {
-        ctx.reply("💩 Mapa de la caca de " + username + " 💩")
-        setTimeout(() => {
-            ctx.replyWithPhoto(url);
-        }, 50);
-    } else {
-        if (private) {
-            ctx.reply("💩 Envíame antes alguna localización 💩")
-        } else {
-            ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
-        }
-    }
+    // var username;
+    // var private;
+    // if (ctx.message.chat.type == 'private') {
+    //     username = ctx.chat.username;
+    //     private = true;
+    // } else if (ctx.message.chat.type == 'group') {
+    //     username = ctx.from.username;
+    //     private = false;
+    // }
+
+    // var locations = dataService.getLocations(username);
+    // var url = dataService.createMap(locations);
+    // if (url) {
+    //     ctx.reply("💩 Mapa de la caca de " + username + " 💩")
+    //     setTimeout(() => {
+    //         ctx.replyWithPhoto(url);
+    //     }, 50);
+    // } else {
+    //     if (private) {
+    //         ctx.reply("💩 Envíame antes alguna localización 💩")
+    //     } else {
+    //         ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
+    //     }
+    // }
 })
 
 bot.command('mapadinamico', (ctx) => {
