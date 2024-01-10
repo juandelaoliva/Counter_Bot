@@ -134,39 +134,39 @@ bot.command('modificar', (ctx) => {
 })
 
 bot.on('callback_query', (ctx) => {
-    try {
-        var from = userString(ctx);
-        var newData = JSON.parse(from).username;
-        if (newData == null) {
-            newData = (JSON.parse(from).from.username);
-        }
-        if (newData == null) {
-            throw TypeError;
-        }
-        var counterId = newData || 0;
+    // try {
+    //     var from = userString(ctx);
+    //     var newData = JSON.parse(from).username;
+    //     if (newData == null) {
+    //         newData = (JSON.parse(from).from.username);
+    //     }
+    //     if (newData == null) {
+    //         throw TypeError;
+    //     }
+    //     var counterId = newData || 0;
 
-        var val = +dataService.getCounter(ctx.chat.id, counterId);
-        var delta = parseInt(ctx.callbackQuery.data);
+    //     var val = +dataService.getCounter(ctx.chat.id, counterId);
+    //     var delta = parseInt(ctx.callbackQuery.data);
 
 
-        val = val + delta;
-        if (val < 0) {
-            val = 0;
-        }
-        dataService.setCounter(ctx.chat.id, counterId, val);
+    //     val = val + delta;
+    //     if (val < 0) {
+    //         val = 0;
+    //     }
+    //     dataService.setCounter(ctx.chat.id, counterId, val);
 
-        var printCounterId = counterId ? "[" + counterId + "] " : "";
-        val = printCounterId + val + " 💩";
+    //     var printCounterId = counterId ? "[" + counterId + "] " : "";
+    //     val = printCounterId + val + " 💩";
 
-        console.log(ctx.callbackQuery.data)
-        logOutMsg(ctx, val);
-        ctx.reply(val);
-        ctx.answerCbQuery(ctx.callbackQuery.data, "recibido!")
-    } catch (e) {
-        if (e instanceof TypeError) {
-            ctx.reply(nameErrMsg);
-        }
-    }
+    //     console.log(ctx.callbackQuery.data)
+    //     logOutMsg(ctx, val);
+    //     ctx.reply(val);
+    //     ctx.answerCbQuery(ctx.callbackQuery.data, "recibido!")
+    // } catch (e) {
+    //     if (e instanceof TypeError) {
+    //         ctx.reply(nameErrMsg);
+    //     }
+    // }
 })
 
 
@@ -247,50 +247,50 @@ bot.command(('Ranking'), ctx => {
 
 bot.command(('SumaCaca'), ctx => {
     logMsg(ctx);
-    try {
-        var from = userString(ctx);
-        // Comprobamos si el mensaje viene de un grupo o de un chat privado
-        var counterId = JSON.parse(from).username;
-        if (counterId == null) {
-            counterId = (JSON.parse(from).from.username);
-        }
-        if (counterId == null) {
-            throw TypeError;
-        } else {
-            var val = dataService.getCounter(ctx.chat.id, counterId);
-            val++;
-            dataService.setCounter(ctx.chat.id, counterId, val);
+    // try {
+    //     var from = userString(ctx);
+    //     // Comprobamos si el mensaje viene de un grupo o de un chat privado
+    //     var counterId = JSON.parse(from).username;
+    //     if (counterId == null) {
+    //         counterId = (JSON.parse(from).from.username);
+    //     }
+    //     if (counterId == null) {
+    //         throw TypeError;
+    //     } else {
+    //         var val = dataService.getCounter(ctx.chat.id, counterId);
+    //         val++;
+    //         dataService.setCounter(ctx.chat.id, counterId, val);
 
-            var printCounterId = counterId ? "[" + counterId + "] " : "";
-            if (val != 0 && val % 50 == 0 && val != 100) {
-                var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
-                setTimeout(() => {
-                    ctx.replyWithAnimation(gifs.getRandomGif());
-                    logOutMsg(ctx, 0)
-                }, 50);
-                setTimeout(() => {
-                    ctx.reply("💩 Con gente como " + counterId + " normal que haya falta de abastecimiento de 🧻 💩");
-                }, 1000);
-            } else if (val == 100) {
-                var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
-                setTimeout(() => {
-                    ctx.replyWithAnimation(gifs.getRandomGif());
-                    logOutMsg(ctx, 0)
-                }, 50);
-            } else {
-                var res = printCounterId + val + " 💩";
-            }
+    //         var printCounterId = counterId ? "[" + counterId + "] " : "";
+    //         if (val != 0 && val % 50 == 0 && val != 100) {
+    //             var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
+    //             setTimeout(() => {
+    //                 ctx.replyWithAnimation(gifs.getRandomGif());
+    //                 logOutMsg(ctx, 0)
+    //             }, 50);
+    //             setTimeout(() => {
+    //                 ctx.reply("💩 Con gente como " + counterId + " normal que haya falta de abastecimiento de 🧻 💩");
+    //             }, 1000);
+    //         } else if (val == 100) {
+    //             var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
+    //             setTimeout(() => {
+    //                 ctx.replyWithAnimation(gifs.getRandomGif());
+    //                 logOutMsg(ctx, 0)
+    //             }, 50);
+    //         } else {
+    //             var res = printCounterId + val + " 💩";
+    //         }
 
-        }
+    //     }
 
-        logOutMsg(ctx, res);
-        ctx.reply(res);
+    //     logOutMsg(ctx, res);
+    //     ctx.reply(res);
 
-    } catch (e) {
-        if (e instanceof TypeError) {
-            ctx.reply(nameErrMsg);
-        }
-    }
+    // } catch (e) {
+    //     if (e instanceof TypeError) {
+    //         ctx.reply(nameErrMsg);
+    //     }
+    // }
 });
 
 bot.command(('latecaca'), ctx => {
@@ -749,37 +749,37 @@ bot.command('Mapa', (ctx) => {
 
 bot.command('mapadinamico', (ctx) => {
     logMsg(ctx);
-    var username;
-    var private;
-    if (ctx.message.chat.type == 'private') {
-        username = ctx.chat.username;
-        private = true;
-    } else if (ctx.message.chat.type == 'group') {
-        username = ctx.from.username;
-        private = false;
-    }
+    // var username;
+    // var private;
+    // if (ctx.message.chat.type == 'private') {
+    //     username = ctx.chat.username;
+    //     private = true;
+    // } else if (ctx.message.chat.type == 'group') {
+    //     username = ctx.from.username;
+    //     private = false;
+    // }
 
-    var locations = dataService.getLocations(username);
-    var url = dataService.createBingMap(locations);
-    if (url) {
-        ctx.reply("💩Para ver este mapa tendrás que pedir la verisón escritorio o verlo desde el ordenador (no está disponible en versión móvil) 💩\n");
-        setTimeout(() => {
-            ctx.reply(url);
-        }, 50);
-    } else {
-        if (private) {
-            ctx.reply("💩 Envíame antes alguna localización 💩")
-        } else {
-            ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
-        }
-    }
+    // var locations = dataService.getLocations(username);
+    // var url = dataService.createBingMap(locations);
+    // if (url) {
+    //     ctx.reply("💩Para ver este mapa tendrás que pedir la verisón escritorio o verlo desde el ordenador (no está disponible en versión móvil) 💩\n");
+    //     setTimeout(() => {
+    //         ctx.reply(url);
+    //     }, 50);
+    // } else {
+    //     if (private) {
+    //         ctx.reply("💩 Envíame antes alguna localización 💩")
+    //     } else {
+    //         ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
+    //     }
+    // }
 })
 
 bot.on('location', (ctx) => {
-    if (ctx.chat.type == 'private') {
-        dataService.saveLocation(ctx.message.location.latitude, ctx.message.location.longitude, ctx.message.chat.username);
-        return ctx.reply('💩 Ubicación añadida a tu mapa de la caca 💩\n 💩 Por un mundo con caca 💩')
-    }
+    // if (ctx.chat.type == 'private') {
+    //     dataService.saveLocation(ctx.message.location.latitude, ctx.message.location.longitude, ctx.message.chat.username);
+    //     return ctx.reply('💩 Ubicación añadida a tu mapa de la caca 💩\n 💩 Por un mundo con caca 💩')
+    // }
 })
 
 module.exports = {
