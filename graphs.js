@@ -20,7 +20,7 @@ function chartUrl(chart, altomes, cambiarAncho) {
   var splitted = stringChart.split("\"");
   var changeheight = ((altomes / 10) + 1) * 300;
 
-  var finalUrl = 'https://quickchart.io/chart?width='+ width +'&height=' + changeheight + '&c={';
+  var finalUrl = 'https://quickchart.io/chart?width=' + width + '&height=' + changeheight + '&c={';
 
   for (var i = 1; i < splitted.length; i++) {
     finalUrl += "%27" + splitted[i];
@@ -31,85 +31,89 @@ function chartUrl(chart, altomes, cambiarAncho) {
 
 function getGroupGraph2(uid) {
   var groupHistories = dataService.getGroupHistories(uid);
-  var groupName = groupHistories[0];
-  var today = new Date();
-  today = today.setHours(today.getHours() + 1);
-  today = new Date(today);
-  var month = today.getMonth() + 1;
-  var datasets = [];
-  var monthss = getMonthsStrings(month);
-  var labels = [];
-  var labelsWithTotal = [];
+  if (groupHistories) {
+    var groupName = groupHistories[0];
+    var today = new Date();
+    today = today.setHours(today.getHours() + 1);
+    today = new Date(today);
+    var month = today.getMonth() + 1;
+    var datasets = [];
+    var monthss = getMonthsStrings(month);
+    var labels = [];
+    var labelsWithTotal = [];
 
-  for (var i = 1; i < groupHistories.length; i++) {
-    var username = Object.keys(groupHistories[i])[0];
-    if (groupHistories[i][username]) {
-      labelsWithTotal.push(username + ' [' + groupHistories[i][username][today.getFullYear()].total + ']');
-      labels.push(username);
-    }
-  }
-
-  for (var i = 0; i < month; i++) {
-    var label = monthss[i];
-    var data = [];
-    for (var e = 0; e < labels.length; e++) {
-      var history = groupHistories[e + 1][labels[e]];
-      if (history[today.getFullYear()].months[i + 1]) {
-        data.push(history[today.getFullYear()].months[i + 1]);
-      } else {
-        data.push(0);
+    for (var i = 1; i < groupHistories.length; i++) {
+      var username = Object.keys(groupHistories[i])[0];
+      if (groupHistories[i][username]) {
+        labelsWithTotal.push(username + ' [' + groupHistories[i][username][today.getFullYear()].total + ']');
+        labels.push(username);
       }
     }
 
-    var dataset = {
-      label: label,
-      data: data
+    for (var i = 0; i < month; i++) {
+      var label = monthss[i];
+      var data = [];
+      for (var e = 0; e < labels.length; e++) {
+        var history = groupHistories[e + 1][labels[e]];
+        if (history[today.getFullYear()].months[i + 1]) {
+          data.push(history[today.getFullYear()].months[i + 1]);
+        } else {
+          data.push(0);
+        }
+      }
+
+      var dataset = {
+        label: label,
+        data: data
+      }
+      datasets.push(dataset);
     }
-    datasets.push(dataset);
-  }
 
 
 
-  var chart = {
-    type: 'bar',
-    data: {
-      labels: labelsWithTotal,
-      datasets: datasets
-    },
-    options: {
-      title: {
-        display: true,
-        text: groupName,
-        fontColor: 'hotpink',
-        fontSize: 25,
+    var chart = {
+      type: 'bar',
+      data: {
+        labels: labelsWithTotal,
+        datasets: datasets
       },
-      legend: {
-        position: 'bottom',
-      },
-      scales: {
-        xAxes: [{ stacked: true }],
-        yAxes: [{
-          stacked: true,
-          ticks: {
-            callback: function (value) {
-              return value + '💩';
-            }
-          }
-        }],
-      },
-      plugins: {
-        datalabels: {
+      options: {
+        title: {
           display: true,
-          font: {
-            style: 'bold',
+          text: groupName,
+          fontColor: 'hotpink',
+          fontSize: 25,
+        },
+        legend: {
+          position: 'bottom',
+        },
+        scales: {
+          xAxes: [{ stacked: true }],
+          yAxes: [{
+            stacked: true,
+            ticks: {
+              callback: function (value) {
+                return value + '💩';
+              }
+            }
+          }],
+        },
+        plugins: {
+          datalabels: {
+            display: true,
+            font: {
+              style: 'bold',
+            },
           },
         },
       },
-    },
-  };
+    };
 
 
-  return chartUrl(chart, month);
+    return chartUrl(chart, month);
+  } else {
+    console.log('error because someone does not have username')
+  }
 }
 
 
@@ -244,7 +248,7 @@ function generateHoursBarGraph(hours, username) {
     }
   };
 
-  return chartUrl(chart,3,800);
+  return chartUrl(chart, 3, 800);
 
 }
 
