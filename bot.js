@@ -98,22 +98,22 @@ const menuPrincipal = Markup
     .extra()
 
 
-// bot.command('menuprincipal', ctx => ctx.reply('💩 Menú Principal 💩', menuPrincipal))
-// bot.command('donar', ctx => ctx.reply('💩💰 Puedes donar al proyecto mediante este link de Paypal 💩\n\n   paypal.me/juandelaoliva'))
-// bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot mediante el siguiente link 💩\n\n   telegram.me/cagometro_bot'))
+bot.command('menuprincipal', ctx => ctx.reply('💩 Menú Principal 💩', menuPrincipal))
+bot.command('donar', ctx => ctx.reply('💩💰 Puedes donar al proyecto mediante este link de Paypal 💩\n\n   paypal.me/juandelaoliva'))
+bot.command('compartir', ctx => ctx.reply('💩 Puedes compartir este bot mediante el siguiente link 💩\n\n   telegram.me/cagometro_bot'))
 
 
 //---------------------------------------------RESPUESTAS AUTOMÁTICAS---------------------------------------------------------------
 
-// bot.hears(/caga/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
-// bot.hears(/cago/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
-// bot.hears(/mierda/i, (ctx) => ctx.reply("💩 mierda? vamos allá! 💩"));
-// bot.hears(/peste/i, (ctx) => ctx.reply("💩 jejeje ha dicho peste 💩"));
-// bot.hears(/^Camu$/, (ctx) => ctx.reply("💩 Camuñass métete a digestivo, que ya te tengo todo el trabajo hecho puto gafas 💩"));
-// bot.hears(/Camuña/i, (ctx) => ctx.reply("💩 Camuñass cuando te despistes te limpiaré el ojete con papel celo 💩"));
-// bot.hears(/(^caca)|(\Wcaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
-// bot.hears(/(^Caca)|(\WCaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
-// bot.hears('gif', (ctx) => ctx.replyWithAnimation(gifs.getRandomGif()));
+bot.hears(/caga/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
+bot.hears(/cago/i, (ctx) => ctx.reply("💩 ¿Verbo cagar? 💩\n\n Vulgar pero efectivo, aun así te doy nuevas ideas para decir que vas al baño: \n\n '" + gifs.getRandomSentence() + "'"));
+bot.hears(/mierda/i, (ctx) => ctx.reply("💩 mierda? vamos allá! 💩"));
+bot.hears(/peste/i, (ctx) => ctx.reply("💩 jejeje ha dicho peste 💩"));
+bot.hears(/^Camu$/, (ctx) => ctx.reply("💩 Camuñass métete a digestivo, que ya te tengo todo el trabajo hecho puto gafas 💩"));
+bot.hears(/Camuña/i, (ctx) => ctx.reply("💩 Camuñass cuando te despistes te limpiaré el ojete con papel celo 💩"));
+bot.hears(/(^caca)|(\Wcaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
+bot.hears(/(^Caca)|(\WCaca)/, (ctx) => ctx.reply("💩 ¿Has dicho 'caca'? 💩 \n\n Aquí te dejo una manera distinta para decir que vas a cagar:\n\n '" + gifs.getRandomSentence() + "'"));
+bot.hears('gif', (ctx) => ctx.replyWithAnimation(gifs.getRandomGif()));
 
 
 
@@ -122,51 +122,51 @@ const menuPrincipal = Markup
 //---------------------------------------------COMANDOS---------------------------------------------------------------
 
 bot.command('modificar', (ctx) => {
-    // return ctx.reply('🔧 💩 Modifica tu número de cacas a lo grande! 💩', Extra.HTML().markup((m) =>
-    //     m.inlineKeyboard([
-    //         m.callbackButton('-100', -100),
-    //         m.callbackButton('-10', -10),
-    //         m.callbackButton('-5', -5),
-    //         m.callbackButton('+5', 5),
-    //         m.callbackButton('+10', 10),
-    //         m.callbackButton('+100', 100)
-    //     ])))
+    return ctx.reply('🔧 💩 Modifica tu número de cacas a lo grande! 💩', Extra.HTML().markup((m) =>
+        m.inlineKeyboard([
+            m.callbackButton('-100', -100),
+            m.callbackButton('-10', -10),
+            m.callbackButton('-5', -5),
+            m.callbackButton('+5', 5),
+            m.callbackButton('+10', 10),
+            m.callbackButton('+100', 100)
+        ])))
 })
 
 bot.on('callback_query', (ctx) => {
-    // try {
-    //     var from = userString(ctx);
-    //     var newData = JSON.parse(from).username;
-    //     if (newData == null) {
-    //         newData = (JSON.parse(from).from.username);
-    //     }
-    //     if (newData == null) {
-    //         throw TypeError;
-    //     }
-    //     var counterId = newData || 0;
+    try {
+        var from = userString(ctx);
+        var newData = JSON.parse(from).username;
+        if (newData == null) {
+            newData = (JSON.parse(from).from.username);
+        }
+        if (newData == null) {
+            throw TypeError;
+        }
+        var counterId = newData || 0;
 
-    //     var val = +dataService.getCounter(ctx.chat.id, counterId);
-    //     var delta = parseInt(ctx.callbackQuery.data);
+        var val = +dataService.getCounter(ctx.chat.id, counterId);
+        var delta = parseInt(ctx.callbackQuery.data);
 
 
-    //     val = val + delta;
-    //     if (val < 0) {
-    //         val = 0;
-    //     }
-    //     dataService.setCounter(ctx.chat.id, counterId, val);
+        val = val + delta;
+        if (val < 0) {
+            val = 0;
+        }
+        dataService.setCounter(ctx.chat.id, counterId, val);
 
-    //     var printCounterId = counterId ? "[" + counterId + "] " : "";
-    //     val = printCounterId + val + " 💩";
+        var printCounterId = counterId ? "[" + counterId + "] " : "";
+        val = printCounterId + val + " 💩";
 
-    //     console.log(ctx.callbackQuery.data)
-    //     logOutMsg(ctx, val);
-    //     ctx.reply(val);
-    //     ctx.answerCbQuery(ctx.callbackQuery.data, "recibido!")
-    // } catch (e) {
-    //     if (e instanceof TypeError) {
-    //         ctx.reply(nameErrMsg);
-    //     }
-    // }
+        console.log(ctx.callbackQuery.data)
+        logOutMsg(ctx, val);
+        ctx.reply(val);
+        ctx.answerCbQuery(ctx.callbackQuery.data, "recibido!")
+    } catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(nameErrMsg);
+        }
+    }
 })
 
 
@@ -196,50 +196,50 @@ bot.command('ayuda', ctx => {
 
 bot.command('about', ctx => {
     logMsg(ctx);
-    //logOutMsg(ctx, aboutMsg);
-    // ctx.reply(aboutMsg);
+    logOutMsg(ctx, aboutMsg);
+    ctx.reply(aboutMsg);
 });
 
 
 bot.command(('Ranking'), ctx => {
     logMsg(ctx);
-    // ctx.reply('bot under maintentnance')
-    // logMsg(ctx);
-    // // Cogemos todos los contadores del chat
-    // counters = dataService.getAllCounters(ctx.chat.id);
-    // if (counters == null) {
-    //     ctx.reply("🥇 💩 Nadie ha registrado ninguna caca todavía 💩")
-    // } else {
-    //     // Inicio del mensaje de respuesta
-    //     msg = "🥇Ranking🥇 \n\n";
+    ctx.reply('bot under maintentnance')
+    logMsg(ctx);
+    // Cogemos todos los contadores del chat
+    counters = dataService.getAllCounters(ctx.chat.id);
+    if (counters == null) {
+        ctx.reply("🥇 💩 Nadie ha registrado ninguna caca todavía 💩")
+    } else {
+        // Inicio del mensaje de respuesta
+        msg = "🥇Ranking🥇 \n\n";
 
-    //     // Guardamos los valores de cada contador
-    //     var values = [];
-    //     Object.keys(counters).forEach(counterId => {
-    //         values.push(counters[counterId]);
-    //     });
+        // Guardamos los valores de cada contador
+        var values = [];
+        Object.keys(counters).forEach(counterId => {
+            values.push(counters[counterId]);
+        });
 
-    //     // Ordenamos los valores y le damos la vuelta
-    //     sortedValues = values.sort(function (a, b) { return a - b });
-    //     sortedValues.reverse();
-    //     // borramos los valores repetidos ya que estarán agrupados
-    //     var uniqueSortedValues = _.uniq(sortedValues);
+        // Ordenamos los valores y le damos la vuelta
+        sortedValues = values.sort(function (a, b) { return a - b });
+        sortedValues.reverse();
+        // borramos los valores repetidos ya que estarán agrupados
+        var uniqueSortedValues = _.uniq(sortedValues);
 
-    //     // Le damos la vuelta (key/values) a los conntadores para poder buscar luego por orden        
-    //     var reversedCounters = _.invertBy(counters);
+        // Le damos la vuelta (key/values) a los conntadores para poder buscar luego por orden        
+        var reversedCounters = _.invertBy(counters);
 
-    //     // Por cada valor en orden buscamos en el JSON de los contadores a quién pertenece cada puntuación
-    //     for (i = 0; i < uniqueSortedValues.length; i++) {
-    //         if (uniqueSortedValues.length > 1 && i == 0) {
-    //             msg += ' 👑' + reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n\n";
+        // Por cada valor en orden buscamos en el JSON de los contadores a quién pertenece cada puntuación
+        for (i = 0; i < uniqueSortedValues.length; i++) {
+            if (uniqueSortedValues.length > 1 && i == 0) {
+                msg += ' 👑' + reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n\n";
 
-    //         } else {
-    //             msg += reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n";
-    //         }
-    //     }
-    //     logOutMsg(ctx, msg);
-    //     ctx.reply(msg);
-    // }
+            } else {
+                msg += reversedCounters[uniqueSortedValues[i]] + ': ' + uniqueSortedValues[i] + " 💩" + "\n";
+            }
+        }
+        logOutMsg(ctx, msg);
+        ctx.reply(msg);
+    }
 });
 
 
@@ -247,143 +247,143 @@ bot.command(('Ranking'), ctx => {
 
 bot.command(('SumaCaca'), ctx => {
     logMsg(ctx);
-    // try {
-    //     var from = userString(ctx);
-    //     // Comprobamos si el mensaje viene de un grupo o de un chat privado
-    //     var counterId = JSON.parse(from).username;
-    //     if (counterId == null) {
-    //         counterId = (JSON.parse(from).from.username);
-    //     }
-    //     if (counterId == null) {
-    //         throw TypeError;
-    //     } else {
-    //         var val = dataService.getCounter(ctx.chat.id, counterId);
-    //         val++;
-    //         dataService.setCounter(ctx.chat.id, counterId, val);
+    try {
+        var from = userString(ctx);
+        // Comprobamos si el mensaje viene de un grupo o de un chat privado
+        var counterId = JSON.parse(from).username;
+        if (counterId == null) {
+            counterId = (JSON.parse(from).from.username);
+        }
+        if (counterId == null) {
+            throw TypeError;
+        } else {
+            var val = dataService.getCounter(ctx.chat.id, counterId);
+            val++;
+            dataService.setCounter(ctx.chat.id, counterId, val);
 
-    //         var printCounterId = counterId ? "[" + counterId + "] " : "";
-    //         if (val != 0 && val % 50 == 0 && val != 100) {
-    //             var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
-    //             setTimeout(() => {
-    //                 ctx.replyWithAnimation(gifs.getRandomGif());
-    //                 logOutMsg(ctx, 0)
-    //             }, 50);
-    //             setTimeout(() => {
-    //                 ctx.reply("💩 Con gente como " + counterId + " normal que haya falta de abastecimiento de 🧻 💩");
-    //             }, 1000);
-    //         } else if (val == 100) {
-    //             var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
-    //             setTimeout(() => {
-    //                 ctx.replyWithAnimation(gifs.getRandomGif());
-    //                 logOutMsg(ctx, 0)
-    //             }, 50);
-    //         } else {
-    //             var res = printCounterId + val + " 💩";
-    //         }
+            var printCounterId = counterId ? "[" + counterId + "] " : "";
+            if (val != 0 && val % 50 == 0 && val != 100) {
+                var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
+                setTimeout(() => {
+                    ctx.replyWithAnimation(gifs.getRandomGif());
+                    logOutMsg(ctx, 0)
+                }, 50);
+                setTimeout(() => {
+                    ctx.reply("💩 Con gente como " + counterId + " normal que haya falta de abastecimiento de 🧻 💩");
+                }, 1000);
+            } else if (val == 100) {
+                var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
+                setTimeout(() => {
+                    ctx.replyWithAnimation(gifs.getRandomGif());
+                    logOutMsg(ctx, 0)
+                }, 50);
+            } else {
+                var res = printCounterId + val + " 💩";
+            }
 
-    //     }
+        }
 
-    //     logOutMsg(ctx, res);
-    //     ctx.reply(res);
+        logOutMsg(ctx, res);
+        ctx.reply(res);
 
-    // } catch (e) {
-    //     if (e instanceof TypeError) {
-    //         ctx.reply(nameErrMsg);
-    //     }
-    // }
+    } catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(nameErrMsg);
+        }
+    }
 });
 
 bot.command(('latecaca'), ctx => {
     logMsg(ctx);
-    // try {
-    //     var from = userString(ctx);
-    //     // Comprobamos si el mensaje viene de un grupo o de un chat privado
-    //     var counterId = JSON.parse(from).username;
-    //     if (counterId == null) {
-    //         counterId = (JSON.parse(from).from.username);
-    //     }
-    //     if (counterId == null) {
-    //         throw TypeError;
-    //     } else {
-    //         var words = ctx.message.text.split(' ');
-    //         words.shift(); //borramos la primera palabra  (que es la llamada al comando)
+    try {
+        var from = userString(ctx);
+        // Comprobamos si el mensaje viene de un grupo o de un chat privado
+        var counterId = JSON.parse(from).username;
+        if (counterId == null) {
+            counterId = (JSON.parse(from).from.username);
+        }
+        if (counterId == null) {
+            throw TypeError;
+        } else {
+            var words = ctx.message.text.split(' ');
+            words.shift(); //borramos la primera palabra  (que es la llamada al comando)
 
-    //         if (!words.length || words.length > 2) {
-    //             var explic = "💩 Este es un comando con parámetros 💩\n\n";
-    //             explic += "Tienes dos maneras de usarlo:\n\n";
-    //             explic += "1.- Añadiendo solo la hora en formato HH:MM\n Ej.: /latecaca 13:00\n\n";
-    //             explic += "2.- Añadiendo la hora y la fecha en formato HH:MM dd/mm/yyyy\n Ej.: /latecaca 13:00 20/03/2020\n";
-    //             ctx.reply(explic);
-    //         } else if (words.length == 1 && !(regexHours.test(words[0]))) {
-    //             ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM 💩");
-    //         } else if (words.length == 2 && !(regexHours.test(words[0]) && regexDate.test(words[1]))) {
-    //             ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM dd/mm/yyyy 💩");
-    //         } else {
+            if (!words.length || words.length > 2) {
+                var explic = "💩 Este es un comando con parámetros 💩\n\n";
+                explic += "Tienes dos maneras de usarlo:\n\n";
+                explic += "1.- Añadiendo solo la hora en formato HH:MM\n Ej.: /latecaca 13:00\n\n";
+                explic += "2.- Añadiendo la hora y la fecha en formato HH:MM dd/mm/yyyy\n Ej.: /latecaca 13:00 20/03/2020\n";
+                ctx.reply(explic);
+            } else if (words.length == 1 && !(regexHours.test(words[0]))) {
+                ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM 💩");
+            } else if (words.length == 2 && !(regexHours.test(words[0]) && regexDate.test(words[1]))) {
+                ctx.reply("💩 La hora debe seguir en el siguiente formato HH:MM dd/mm/yyyy 💩");
+            } else {
 
-    //             //-------------------------------------------------------
-    //             var val = dataService.getCounter(ctx.chat.id, counterId);
-    //             val++;
-    //             dataService.setCounterCustom(ctx.chat.id, counterId, val, words);
+                //-------------------------------------------------------
+                var val = dataService.getCounter(ctx.chat.id, counterId);
+                val++;
+                dataService.setCounterCustom(ctx.chat.id, counterId, val, words);
 
-    //             var printCounterId = counterId ? "[" + counterId + "] " : "";
-    //             if (val != 0 && val % 50 == 0 && val != 100) {
-    //                 var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
-    //                 setTimeout(() => {
-    //                     ctx.replyWithAnimation(gifs.getRandomGif());
-    //                     logOutMsg(ctx, 0)
-    //                 }, 50);
-    //             } else if (val == 100) {
-    //                 var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
-    //                 setTimeout(() => {
-    //                     ctx.replyWithAnimation(gifs.getRandomGif());
-    //                     logOutMsg(ctx, 0)
-    //                 }, 50);
-    //             } else {
-    //                 var res = printCounterId + val + " 💩";
-    //             }
+                var printCounterId = counterId ? "[" + counterId + "] " : "";
+                if (val != 0 && val % 50 == 0 && val != 100) {
+                    var res = "💩 Enhorabuena " + counterId + "! 💩\n\nHas llegado a la gran cifra de las " + val + " cacas. Sigue esforzándote así y llegarás muy lejos!";
+                    setTimeout(() => {
+                        ctx.replyWithAnimation(gifs.getRandomGif());
+                        logOutMsg(ctx, 0)
+                    }, 50);
+                } else if (val == 100) {
+                    var res = "💩 Joder " + counterId + " ya te tiene que arder el ojete! 💩\n\nHas llegado a la gran cifra de las 100 cacas. Llegarás al cielo con tu mierda!";
+                    setTimeout(() => {
+                        ctx.replyWithAnimation(gifs.getRandomGif());
+                        logOutMsg(ctx, 0)
+                    }, 50);
+                } else {
+                    var res = printCounterId + val + " 💩";
+                }
 
-    //             logOutMsg(ctx, res);
-    //             ctx.reply(res);
-    //         }
-    //     }
+                logOutMsg(ctx, res);
+                ctx.reply(res);
+            }
+        }
 
 
-    // } catch (e) {
-    //     if (e instanceof TypeError) {
-    //         ctx.reply(nameErrMsg);
-    //     }
-    // }
+    } catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(nameErrMsg);
+        }
+    }
 });
 
 bot.command(('quitacaca'), ctx => {
     logMsg(ctx);
-    // try {
-    //     var from = userString(ctx);
-    //     var counterId = JSON.parse(from).username;
-    //     if (counterId == null) {
-    //         counterId = (JSON.parse(from).from.username);
-    //     }
-    //     if (counterId == null) {
-    //         throw TypeError;
-    //     }
+    try {
+        var from = userString(ctx);
+        var counterId = JSON.parse(from).username;
+        if (counterId == null) {
+            counterId = (JSON.parse(from).from.username);
+        }
+        if (counterId == null) {
+            throw TypeError;
+        }
 
-    //     var val = dataService.getCounter(ctx.chat.id, counterId);
-    //     val--;
-    //     if (val < 0) {
-    //         val = 0;
-    //     }
-    //     dataService.setCounter(ctx.chat.id, counterId, val);
+        var val = dataService.getCounter(ctx.chat.id, counterId);
+        val--;
+        if (val < 0) {
+            val = 0;
+        }
+        dataService.setCounter(ctx.chat.id, counterId, val);
 
-    //     var printCounterId = counterId ? "[" + counterId + "] " : "";
+        var printCounterId = counterId ? "[" + counterId + "] " : "";
 
-    //     val = printCounterId + val + " 💩";
-    //     logOutMsg(ctx, val);
-    //     ctx.reply(val);
-    // } catch (e) {
-    //     if (e instanceof TypeError) {
-    //         ctx.reply(nameErrMsg);
-    //     }
-    // }
+        val = printCounterId + val + " 💩";
+        logOutMsg(ctx, val);
+        ctx.reply(val);
+    } catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(nameErrMsg);
+        }
+    }
 });
 
 // este comando solo está disponible para el dueño del bot
@@ -410,151 +410,151 @@ bot.command('broadcast', ctx => {
 
 bot.command(('Stats'), ctx => {
     logMsg(ctx);
-    // try {
-    //     var from = userString(ctx);
+    try {
+        var from = userString(ctx);
 
-    //     var newData = JSON.parse(from).username;
-    //     if (newData == null) {
-    //         newData = (JSON.parse(from).from.username);
-    //     }
-    //     if (newData == null) {
-    //         throw TypeError;
-    //     } else {
-    //         if (dataService.getStats(ctx.chat.id, newData) == null) {
-    //             throw TypeError;
-    //         } else {
+        var newData = JSON.parse(from).username;
+        if (newData == null) {
+            newData = (JSON.parse(from).from.username);
+        }
+        if (newData == null) {
+            throw TypeError;
+        } else {
+            if (dataService.getStats(ctx.chat.id, newData) == null) {
+                throw TypeError;
+            } else {
 
-    //         stats = dataService.getStats(ctx.chat.id, newData);
+            stats = dataService.getStats(ctx.chat.id, newData);
 
-    //         if (stats.length > 0) {
+            if (stats.length > 0) {
 
-    //             var today = new Date();
-    //             today = today.setHours(today.getHours() + 1);
-    //             today = new Date(today);
-
-
-    //             var thisDay = today.getDate();
-    //             var thisYear = today.getFullYear();
-    //             var lastYear = thisYear - 1;
-    //             var thisMonth = today.getMonth() + 1;
-
-    //             if (thisMonth == 1) {
-    //                 var lastMonth = 12;
-    //             } else {
-    //                 var lastMonth = thisMonth - 1;
-    //             }
+                var today = new Date();
+                today = today.setHours(today.getHours() + 1);
+                today = new Date(today);
 
 
-    //             var cacasToday = 0;
-    //             var cacasYesterday = 0;
+                var thisDay = today.getDate();
+                var thisYear = today.getFullYear();
+                var lastYear = thisYear - 1;
+                var thisMonth = today.getMonth() + 1;
 
-    //             var cacasThisMonth = 0;
-    //             var cacasLastMonth = 0;
-
-    //             var mediaThisMonth = 0;
-    //             var mediaLastMonth = 0;
-
-    //             var mediaThisYear = 0;
-    //             var mediaLastYear = 0;
-
-    //             var cacasThisYear = 0;
-    //             var cacasLastYear = 0;
+                if (thisMonth == 1) {
+                    var lastMonth = 12;
+                } else {
+                    var lastMonth = thisMonth - 1;
+                }
 
 
-    //             for (var i = 0; i < stats.length; i++) {
-    //                 var logDate = new Date(stats[i]);
+                var cacasToday = 0;
+                var cacasYesterday = 0;
 
-    //                 var logYear = logDate.getFullYear();
-    //                 var logMonth = logDate.getMonth() + 1;
-    //                 var logDay = logDate.getDate();
+                var cacasThisMonth = 0;
+                var cacasLastMonth = 0;
 
-    //                 if (logYear == thisYear) {
-    //                     cacasThisYear += 1;
-    //                 }
-    //                 if (logYear == lastYear) {
-    //                     cacasLastYear += 1;
-    //                 }
+                var mediaThisMonth = 0;
+                var mediaLastMonth = 0;
 
-    //                 if (logYear == thisYear && logMonth == thisMonth) {
-    //                     cacasThisMonth += 1;
-    //                 }
+                var mediaThisYear = 0;
+                var mediaLastYear = 0;
 
-    //                 if (logYear == thisYear && logMonth == lastMonth && lastMonth != 12) {
-    //                     cacasLastMonth += 1;
-    //                 }
-
-    //                 if (logYear == lastYear && logMonth == lastMonth && lastMonth == 12) {
-    //                     cacasLastMonth += 1;
-    //                 }
-
-    //                 if (logYear == thisYear && logMonth == thisMonth && logDay == thisDay) {
-    //                     cacasToday += 1;
-    //                 }
-
-    //             }
+                var cacasThisYear = 0;
+                var cacasLastYear = 0;
 
 
-    //             mediaThisYear = cacasThisYear / calculaNumeroDia();
+                for (var i = 0; i < stats.length; i++) {
+                    var logDate = new Date(stats[i]);
+
+                    var logYear = logDate.getFullYear();
+                    var logMonth = logDate.getMonth() + 1;
+                    var logDay = logDate.getDate();
+
+                    if (logYear == thisYear) {
+                        cacasThisYear += 1;
+                    }
+                    if (logYear == lastYear) {
+                        cacasLastYear += 1;
+                    }
+
+                    if (logYear == thisYear && logMonth == thisMonth) {
+                        cacasThisMonth += 1;
+                    }
+
+                    if (logYear == thisYear && logMonth == lastMonth && lastMonth != 12) {
+                        cacasLastMonth += 1;
+                    }
+
+                    if (logYear == lastYear && logMonth == lastMonth && lastMonth == 12) {
+                        cacasLastMonth += 1;
+                    }
+
+                    if (logYear == thisYear && logMonth == thisMonth && logDay == thisDay) {
+                        cacasToday += 1;
+                    }
+
+                }
+
+
+                mediaThisYear = cacasThisYear / calculaNumeroDia();
 
 
 
-    //             mediaThisMonth = cacasThisMonth / thisDay;
-    //             mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth, thisYear);
+                mediaThisMonth = cacasThisMonth / thisDay;
+                mediaLastMonth = calculaMediaMes(lastMonth, cacasLastMonth, thisYear);
 
-    //             var diferenciaConMesPasado;
-    //             if (mediaLastMonth != 0) {
-    //                 diferenciaConMesPasado = ((mediaThisMonth / mediaLastMonth) * 100) - 100;
-    //             }
+                var diferenciaConMesPasado;
+                if (mediaLastMonth != 0) {
+                    diferenciaConMesPasado = ((mediaThisMonth / mediaLastMonth) * 100) - 100;
+                }
 
-    //             //Checking hours
-
-
-    //             var res = '💩 Estadísticas de ' + newData + ' 💩\n';
-    //             res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
-    //             res += '- Hoy has cagado ' + cacasToday;
-    //             cacasToday == 1 ? res += ' vez.\n' : res += ' veces.\n';
-    //             res += '- Este mes has cagado ' + cacasThisMonth;
-    //             cacasThisMonth == 1 ? res += ' vez.\n' : res += ' veces.\n';
-    //             res += '- Este año has cagado ' + cacasThisYear;
-    //             cacasThisYear == 1 ? res += ' vez.\n\n' : res += ' veces.\n\n';
-    //             res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
-    //             res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
-
-    //             if (diferenciaConMesPasado) {
-    //                 res += ' que es un ' + Math.abs(diferenciaConMesPasado).toFixed(2) + '%';
-    //                 if (diferenciaConMesPasado >= 0) {
-    //                     res += ' más';
-    //                 } else if (diferenciaConMesPasado < 0) {
-    //                     res += ' menos';
-    //                 }
-    //                 res += ' que el mes pasado';
-    //             }
-
-    //             ctx.reply(res);
+                //Checking hours
 
 
-    //             if (newData == 'Javcamcor') {
-    //                 setTimeout(() => {
-    //                     ctx.reply("💩 Paletas, usa el bidé que con la cuarentena no queda papel!🧻🧻 💩");
-    //                 }, 90);  //delay para enviar este mensaje como segundo mensaje
-    //             }
+                var res = '💩 Estadísticas de ' + newData + ' 💩\n';
+                res += '(Hoy: ' + thisDay + '/' + thisMonth + '/' + thisYear + ')\n\n';
+                res += '- Hoy has cagado ' + cacasToday;
+                cacasToday == 1 ? res += ' vez.\n' : res += ' veces.\n';
+                res += '- Este mes has cagado ' + cacasThisMonth;
+                cacasThisMonth == 1 ? res += ' vez.\n' : res += ' veces.\n';
+                res += '- Este año has cagado ' + cacasThisYear;
+                cacasThisYear == 1 ? res += ' vez.\n\n' : res += ' veces.\n\n';
+                res += '- Este año llevas una media de ' + mediaThisYear.toFixed(4) + ' cacas al día.\n';
+                res += '- Este mes llevas una media de ' + mediaThisMonth.toFixed(4) + ' cacas al día';
 
-    //             if (mediaThisMonth.toFixed(4) > 2.5 || mediaThisYear.toFixed(4) > 2.5) {
-    //                 setTimeout(() => {
-    //                     ctx.reply("💩 Con gente como " + newData + " normal que haya falta de abastecimiento de 🧻 \n Una media de más de 2.5 es mucha tela eh 💩");
-    //                 }, 90);  //delay para enviar este mensaje como segundo mensaje
-    //             }
-    //         } else {
-    //             ctx.reply('Ninguna estadística disponible');
-    //         }
-    //     }}
-    // }
-    // catch (e) {
-    //     if (e instanceof TypeError) {
-    //         ctx.reply(nameErrMsg);
-    //         console.log(e);
-    //     }
-    // }
+                if (diferenciaConMesPasado) {
+                    res += ' que es un ' + Math.abs(diferenciaConMesPasado).toFixed(2) + '%';
+                    if (diferenciaConMesPasado >= 0) {
+                        res += ' más';
+                    } else if (diferenciaConMesPasado < 0) {
+                        res += ' menos';
+                    }
+                    res += ' que el mes pasado';
+                }
+
+                ctx.reply(res);
+
+
+                if (newData == 'Javcamcor') {
+                    setTimeout(() => {
+                        ctx.reply("💩 Paletas, usa el bidé que con la cuarentena no queda papel!🧻🧻 💩");
+                    }, 90);  //delay para enviar este mensaje como segundo mensaje
+                }
+
+                if (mediaThisMonth.toFixed(4) > 2.5 || mediaThisYear.toFixed(4) > 2.5) {
+                    setTimeout(() => {
+                        ctx.reply("💩 Con gente como " + newData + " normal que haya falta de abastecimiento de 🧻 \n Una media de más de 2.5 es mucha tela eh 💩");
+                    }, 90);  //delay para enviar este mensaje como segundo mensaje
+                }
+            } else {
+                ctx.reply('Ninguna estadística disponible');
+            }
+        }}
+    }
+    catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(nameErrMsg);
+            console.log(e);
+        }
+    }
 });
 
 function calculaMediaMes(month, cacasMonth, thisYear) {
@@ -611,175 +611,175 @@ bot.startPolling();
 
 bot.command(('Graph'), ctx => {
     logMsg(ctx);
-    // ctx.reply('bot under maintentnance')
+    ctx.reply('bot under maintentnance')
 
-    // try {
-    //     var from = userString(ctx);
+    try {
+        var from = userString(ctx);
 
-    //     var newData = JSON.parse(from).username;
-    //     if (newData == null) {
-    //         newData = (JSON.parse(from).from.username);
-    //     }
-    //     if (newData == null) {
-    //         throw TypeError;
-    //     } else {
-    //         var graph;
-    //         if (ctx.chat.type == 'group') {
+        var newData = JSON.parse(from).username;
+        if (newData == null) {
+            newData = (JSON.parse(from).from.username);
+        }
+        if (newData == null) {
+            throw TypeError;
+        } else {
+            var graph;
+            if (ctx.chat.type == 'group') {
 
-    //             var words = ctx.message.text.split(' ');
-    //             words.shift(); //borramos la primera palabra  (que es la llamada al comando)
+                var words = ctx.message.text.split(' ');
+                words.shift(); //borramos la primera palabra  (que es la llamada al comando)
 
-    //             if (words[0] == 'propio') {
-    //                 history = dataService.getHistory(ctx.chat.id, newData);
-    //                 graph = graphs.generateYearGraph(history, newData);
-    //                 ctx.replyWithPhoto(graph);
-    //             } else {
-    //                 graph = graphs.getGroupGraph2(ctx.chat.id);
-    //                 ctx.replyWithPhoto(graph);
-    //             }
+                if (words[0] == 'propio') {
+                    history = dataService.getHistory(ctx.chat.id, newData);
+                    graph = graphs.generateYearGraph(history, newData);
+                    ctx.replyWithPhoto(graph);
+                } else {
+                    graph = graphs.getGroupGraph2(ctx.chat.id);
+                    ctx.replyWithPhoto(graph);
+                }
 
-    //         } else {
-    //             history = dataService.getHistory(ctx.chat.id, newData);
-    //             graph = graphs.generateYearGraph(history, newData);
-    //             ctx.replyWithPhoto(graph);
+            } else {
+                history = dataService.getHistory(ctx.chat.id, newData);
+                graph = graphs.generateYearGraph(history, newData);
+                ctx.replyWithPhoto(graph);
 
-    //         }
-    //     }
+            }
+        }
 
-    //     logOutMsg(ctx, newData + ': Graph generated');
-    // }
-    // catch (e) {
-    //     if (e instanceof TypeError) {
-    //         ctx.reply(ErrMsg);
-    //         console.log(e);
-    //     }
-    // }
+        logOutMsg(ctx, newData + ': Graph generated');
+    }
+    catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(ErrMsg);
+            console.log(e);
+        }
+    }
 });
 
 
 bot.command(('Hours'), ctx => {
     logMsg(ctx);
-    // ctx.reply('bot under maintentnance')
+    ctx.reply('bot under maintentnance')
 
-    // try {
-    //     var from = userString(ctx);
+    try {
+        var from = userString(ctx);
 
-    //     var newData = JSON.parse(from).username;
-    //     if (newData == null) {
-    //         newData = (JSON.parse(from).from.username);
-    //     }
-    //     if (newData == null) {
-    //         throw TypeError;
-    //     } else {
-    //         if (dataService.getStats(ctx.chat.id, newData) == null) {
-    //             throw TypeError;
-    //         } else {
-    //         dates = dataService.getStats(ctx.chat.id, newData);
+        var newData = JSON.parse(from).username;
+        if (newData == null) {
+            newData = (JSON.parse(from).from.username);
+        }
+        if (newData == null) {
+            throw TypeError;
+        } else {
+            if (dataService.getStats(ctx.chat.id, newData) == null) {
+                throw TypeError;
+            } else {
+            dates = dataService.getStats(ctx.chat.id, newData);
 
-    //         var hours = dataService.getHoursLog(dates, ctx.chat.id);
+            var hours = dataService.getHoursLog(dates, ctx.chat.id);
 
-    //         var top3 = dataService.getHoursTop3(hours);
-    //         var res = '💩Estudio de horas💩\n\n'
-    //         res += 'Tus horas más frecuentes son las siguientes:\n\n';
-    //         res += '- ' + top3.top3hours[0] + 'h es tu hora más frecuente con una cantidad de ' + top3.top3Amount[0] + '\n';
-    //         res += '- ' + top3.top3hours[1] + 'h es tu segunda hora más frecuente con una cantidad de ' + top3.top3Amount[1] + '\n';
-    //         res += '- ' + top3.top3hours[2] + 'h en tercer lugar con ' + top3.top3Amount[2] + '\n\n';
-    //         res += 'ℹ️ Puede haber varias horas con el mísmo número de cacas (consultar gráfico de barras) 💩\n';
-    //         if (ctx.chat.id == -353783471) {
-    //             res += "ℹ️ Al formar parte del grupo " + ctx.chat.title + ", no se han tenido en cuenta las cacas añadidas previas al 23 de Enero para el ranking de horas y el gráfico de barras. 💩";
-    //         }
+            var top3 = dataService.getHoursTop3(hours);
+            var res = '💩Estudio de horas💩\n\n'
+            res += 'Tus horas más frecuentes son las siguientes:\n\n';
+            res += '- ' + top3.top3hours[0] + 'h es tu hora más frecuente con una cantidad de ' + top3.top3Amount[0] + '\n';
+            res += '- ' + top3.top3hours[1] + 'h es tu segunda hora más frecuente con una cantidad de ' + top3.top3Amount[1] + '\n';
+            res += '- ' + top3.top3hours[2] + 'h en tercer lugar con ' + top3.top3Amount[2] + '\n\n';
+            res += 'ℹ️ Puede haber varias horas con el mísmo número de cacas (consultar gráfico de barras) 💩\n';
+            if (ctx.chat.id == -353783471) {
+                res += "ℹ️ Al formar parte del grupo " + ctx.chat.title + ", no se han tenido en cuenta las cacas añadidas previas al 23 de Enero para el ranking de horas y el gráfico de barras. 💩";
+            }
 
-    //         setTimeout(() => {
-    //             ctx.reply(res);
-    //         }, 500);
+            setTimeout(() => {
+                ctx.reply(res);
+            }, 500);
 
-    //         setTimeout(() => {
-    //             ctx.replyWithPhoto(graphs.generateHoursBarGraph(hours, newData));
-    //         }, 1000);
+            setTimeout(() => {
+                ctx.replyWithPhoto(graphs.generateHoursBarGraph(hours, newData));
+            }, 1000);
 
-    //         setTimeout(() => {
-    //             ctx.reply('💩A continuación se mostrará un gráfico de una nube de puntos que representan todas las cacas hechas hasta la fecha ordenadas según la hora 💩');
-    //         }, 3000);
+            setTimeout(() => {
+                ctx.reply('💩A continuación se mostrará un gráfico de una nube de puntos que representan todas las cacas hechas hasta la fecha ordenadas según la hora 💩');
+            }, 3000);
 
-    //         setTimeout(() => {
-    //             var graph;
-    //             graph = graphs.generateHoursGraph(dates, newData);
-    //             ctx.replyWithPhoto(graph);
-    //         }, 4000);
-    //     }}
-    //     logOutMsg(ctx, newData + ': Graph generated');
-    // }
-    // catch (e) {
-    //     if (e instanceof TypeError) {
-    //         ctx.reply(ErrMsg);
-    //         console.log(e);
-    //     }
-    // }
+            setTimeout(() => {
+                var graph;
+                graph = graphs.generateHoursGraph(dates, newData);
+                ctx.replyWithPhoto(graph);
+            }, 4000);
+        }}
+        logOutMsg(ctx, newData + ': Graph generated');
+    }
+    catch (e) {
+        if (e instanceof TypeError) {
+            ctx.reply(ErrMsg);
+            console.log(e);
+        }
+    }
 });
 
 bot.command('Mapa', (ctx) => {
     logMsg(ctx);
-    // ctx.reply('bot under maintentnance')
+    ctx.reply('bot under maintentnance')
 
-    // var username;
-    // var private;
-    // if (ctx.message.chat.type == 'private') {
-    //     username = ctx.chat.username;
-    //     private = true;
-    // } else if (ctx.message.chat.type == 'group') {
-    //     username = ctx.from.username;
-    //     private = false;
-    // }
+    var username;
+    var private;
+    if (ctx.message.chat.type == 'private') {
+        username = ctx.chat.username;
+        private = true;
+    } else if (ctx.message.chat.type == 'group') {
+        username = ctx.from.username;
+        private = false;
+    }
 
-    // var locations = dataService.getLocations(username);
-    // var url = dataService.createMap(locations);
-    // if (url) {
-    //     ctx.reply("💩 Mapa de la caca de " + username + " 💩")
-    //     setTimeout(() => {
-    //         ctx.replyWithPhoto(url);
-    //     }, 50);
-    // } else {
-    //     if (private) {
-    //         ctx.reply("💩 Envíame antes alguna localización 💩")
-    //     } else {
-    //         ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
-    //     }
-    // }
+    var locations = dataService.getLocations(username);
+    var url = dataService.createMap(locations);
+    if (url) {
+        ctx.reply("💩 Mapa de la caca de " + username + " 💩")
+        setTimeout(() => {
+            ctx.replyWithPhoto(url);
+        }, 50);
+    } else {
+        if (private) {
+            ctx.reply("💩 Envíame antes alguna localización 💩")
+        } else {
+            ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
+        }
+    }
 })
 
 bot.command('mapadinamico', (ctx) => {
     logMsg(ctx);
-    // var username;
-    // var private;
-    // if (ctx.message.chat.type == 'private') {
-    //     username = ctx.chat.username;
-    //     private = true;
-    // } else if (ctx.message.chat.type == 'group') {
-    //     username = ctx.from.username;
-    //     private = false;
-    // }
+    var username;
+    var private;
+    if (ctx.message.chat.type == 'private') {
+        username = ctx.chat.username;
+        private = true;
+    } else if (ctx.message.chat.type == 'group') {
+        username = ctx.from.username;
+        private = false;
+    }
 
-    // var locations = dataService.getLocations(username);
-    // var url = dataService.createBingMap(locations);
-    // if (url) {
-    //     ctx.reply("💩Para ver este mapa tendrás que pedir la verisón escritorio o verlo desde el ordenador (no está disponible en versión móvil) 💩\n");
-    //     setTimeout(() => {
-    //         ctx.reply(url);
-    //     }, 50);
-    // } else {
-    //     if (private) {
-    //         ctx.reply("💩 Envíame antes alguna localización 💩")
-    //     } else {
-    //         ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
-    //     }
-    // }
+    var locations = dataService.getLocations(username);
+    var url = dataService.createBingMap(locations);
+    if (url) {
+        ctx.reply("💩Para ver este mapa tendrás que pedir la verisón escritorio o verlo desde el ordenador (no está disponible en versión móvil) 💩\n");
+        setTimeout(() => {
+            ctx.reply(url);
+        }, 50);
+    } else {
+        if (private) {
+            ctx.reply("💩 Envíame antes alguna localización 💩")
+        } else {
+            ctx.reply("💩 Para poder ver tu mapa antes tendrás que enviarme las localizaciones de tus cacas por privado -> telegram.me/cagometro_bot 💩")
+        }
+    }
 })
 
 bot.on('location', (ctx) => {
-    // if (ctx.chat.type == 'private') {
-    //     dataService.saveLocation(ctx.message.location.latitude, ctx.message.location.longitude, ctx.message.chat.username);
-    //     return ctx.reply('💩 Ubicación añadida a tu mapa de la caca 💩\n 💩 Por un mundo con caca 💩')
-    // }
+    if (ctx.chat.type == 'private') {
+        dataService.saveLocation(ctx.message.location.latitude, ctx.message.location.longitude, ctx.message.chat.username);
+        return ctx.reply('💩 Ubicación añadida a tu mapa de la caca 💩\n 💩 Por un mundo con caca 💩')
+    }
 })
 
 module.exports = {
